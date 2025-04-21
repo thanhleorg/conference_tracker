@@ -131,6 +131,10 @@ function App() {
             setAreas(areasMap);
             setConferencesByArea(finalConferencesByArea);
             setConferences(loadedConferences);
+            // Collect all conferences from CSV:
+            const allConfNamesFromCSV = [];
+            Object.values(conferencesMap).forEach(setOfConfs => { allConfNamesFromCSV.push(...Array.from(setOfConfs)); });
+            setSelectedConferences(new Set(allConfNamesFromCSV));
             setFilteredConferences(loadedConferences);
             setLoading(false);
           },
@@ -145,7 +149,7 @@ function App() {
   const filterConferences = () => {
     const selected = Array.from(selectedConferences);
     const updatedConferences = conferences.filter(conf => {
-      const matchesConference = selected.length === 0 || selected.includes(conf.name);
+      const matchesConference = selected.includes(conf.name);
       const matchesSearch = conf.name.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesConference && matchesSearch;
     });
