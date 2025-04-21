@@ -7,11 +7,12 @@ import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
 import Collapse from '@mui/material/Collapse';
 import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
 import Papa from 'papaparse';
 import yaml from 'js-yaml';
 
 import ConferenceCard from './ConferenceCard';
-import logo2 from './t-rex.gif';
+import logo2 from './t-rex-2.gif';
 import './App.css';
 
 const parentAreaColors = [
@@ -196,30 +197,45 @@ function App() {
       <header style={{ display: 'flex', alignItems: 'center', padding: '10px' }}>
         <img src={logo2} alt="dino" style={{ height: '100px', marginRight: '10px' }} />
         {/* <h1 style={{ margin: 0 }}>ROARS 🦖 Lab: CS Conference Deadlines 🚀🚀🚀</h1> */}
-        <Typography
-          variant="h4"
-          component="h1"
-          sx={{
-            margin: 0,
-            fontWeight: '900',
-            letterSpacing: 2,
-            background: 'rgb(23, 143, 51)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            textShadow: '1px 1px 4px rgba(0,0,0,0.3)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1.5,
-            userSelect: 'none',
-            fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-            '@media (max-width:600px)': {
-              fontSize: '1.8rem',
-              letterSpacing: 1,
-            },
-          }}
-        >
-          ROARS 🦖 Lab: Deadlines 🚀🚀🚀
-        </Typography>
+        <div>
+          <div>
+            <Typography
+              variant="h4"
+              component="h1"
+              sx={{
+                margin: 0,
+                fontWeight: '900',
+                letterSpacing: 2,
+                background: 'rgb(117, 177, 109)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                textShadow: '1px 1px 4px rgba(0,0,0,0.3)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1.5,
+                userSelect: 'none',
+                fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+                '@media (max-width:600px)': {
+                  fontSize: '1.8rem',
+                  letterSpacing: 1,
+                },
+              }}
+            >
+              CS Conference Deadlines 🚀🚀🚀
+            </Typography>
+          </div>
+          <div>
+            <Typography
+              variant="body2"
+              component="div"
+              sx={{ marginTop: 1, color: 'text.secondary', userSelect: 'text' }}
+            >
+              <Link href="https://git.roars.dev/csconfs" target="_blank" rel="noopener" underline="hover">
+                git.roars.dev/csconfs
+              </Link>
+            </Typography>
+          </div>
+        </div>
       </header>
       <div className="App">
         {loading ? (
