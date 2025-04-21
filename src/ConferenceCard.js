@@ -2,31 +2,31 @@ import React, { useEffect, useState } from 'react';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
-import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
+import Link from '@mui/material/Link';
 
 const StyledLink = styled(Link)({
-  color: 'inherit',
+  color: 'darkblue',
   textDecoration: 'none',
   '&:hover': {
     textDecoration: 'underline',
-    color: 'blue', // Change to your desired hover color
   },
 });
 
 const calculateCountdown = (deadline) => {
-  if (!deadline) return 'No deadline';
+  if (!deadline) return '';
   const now = new Date();
   const deadlineDate = new Date(deadline);
-  const difference = deadlineDate - now;
-  if (difference <= 0) return 'Deadline passed';
-  const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((difference / (1000 * 60)) % 60);
-  const seconds = Math.floor((difference / 1000) % 60);
-  if ([days, hours, minutes, seconds].some(isNaN)) {
-    return 'No deadline';
-  }
+  const diff = deadlineDate - now;
+  if (diff <= 0) return 'Deadline passed';
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
+
+  if ([days, hours, minutes, seconds].some(isNaN)) return '';
+
   return `${days}d, ${hours}h, ${minutes}m, ${seconds}s`;
 };
 
@@ -38,41 +38,71 @@ const ConferenceCard = ({ conference }) => {
       setCountdown(calculateCountdown(conference.deadline));
     }, 1000);
     return () => clearInterval(interval);
-  }, [conference.deadline]);  // Ensure that the interval runs for this specific conference
+  }, [conference.deadline]);
+
+  // Format date range or fallback
+  const dateRangeDisplay = conference.date 
+    ? new Date(conference.date).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })
+    : 'TBD';
+  const deadlineDisplay = conference.deadline
+    ? new Date(conference.deadline).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })
+    : 'TBD'; // example fallback text from screenshot
 
   return (
-    <Card variant="outlined" style={{ marginLeft: '20px', marginBottom: '5px', borderRadius: '8px', boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)' }}>
-      <CardContent>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0px' }}>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '20px', marginBottom: '5px' }}>
-              <Typography variant="h5" component="div" style={{ color: 'black', fontWeight: 'bold', fontSize: '2.0rem' }}>
-                <StyledLink href={conference.link} target="_blank" rel="noopener noreferrer">
-                  {conference.name} {conference.year}
-                </StyledLink>
-              </Typography>
-              <Typography variant="body2" color="textSecondary" style={{ fontSize: '1.0rem' }}>
-                {conference.area_title}
-              </Typography>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '50px', marginBottom: '5px' }}>
-              <Typography variant="body2" color="black" style={{ fontSize: '1.0rem' }}>
-                Deadline: {new Date(conference.deadline).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}
-              </Typography>
-              <Typography variant="body2" color="black" style={{ fontSize: '1.0rem' }}>
-                Location: {conference.place}
-              </Typography>
-              <Typography variant="body2" color="black" style={{ fontSize: '1.0rem' }}>
-                Date: {conference.date}
-              </Typography>
-            </div>
-          </div>
-          <div style={{ textAlign: 'right' }}>
-            <Typography variant="h6" style={{ color: 'red', fontWeight: 'bold', fontSize: '2.5rem' }}>
-              {countdown}
-            </Typography>
-          </div>
-        </div>
+    <Card
+      variant="outlined"
+      sx={{
+        borderRadius: '5px',
+        padding: 2,
+        marginBottom: 3,
+        boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        minHeight: 100,
+      }}
+    >
+      {/* Left column: name, description, area */}
+      <CardContent sx={{ flexBasis: '50%', padding: 0 }}>
+        <Typography variant="h4" fontWeight="bold" gutterBottom>
+          <StyledLink href={conference.link} target="_blank" rel="noopener noreferrer">
+            {conference.name} {conference.year}
+          </StyledLink>
+        </Typography>
+        <Typography variant="body2" sx={{ marginBottom: 0., color: 'text.secondary' }}>
+          {conference.description}
+        </Typography>
+        
+        {/* <Typography
+          variant="subtitle2"
+          sx={{ fontWeight: 'bold', fontStyle: 'italic', color: 'text.primary' }}
+        >
+          {conference.areaTitle || conference.area_title}
+        </Typography> */}
+      </CardContent>
+
+      {/* Center column: date range and location */}
+      <CardContent
+        sx={{
+          flexBasis: '20%',
+          padding: 0,
+          textAlign: 'right',
+          color: 'text.black',
+          fontWeight: 'medium',
+        }}
+      >
+        <Typography>{dateRangeDisplay}</Typography>
+        {conference.place}
+      </CardContent>
+
+      {/* Right column: countdown and deadline */}
+      <CardContent sx={{ flexBasis: '30%', padding: 0, textAlign: 'right' }}>
+        <Typography variant="h4" fontWeight="bold" color="error.main" sx={{ marginTop: 2. }}>
+          {countdown || 'TBD'}
+        </Typography>
+        <Typography variant="h6" fontWeight="bold" color="error.main" sx={{ marginTop: 0. }}>
+          Deadline: {deadlineDisplay}
+        </Typography>
       </CardContent>
     </Card>
   );
