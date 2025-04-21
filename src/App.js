@@ -221,7 +221,7 @@ function App() {
                 },
               }}
             >
-              CS Conference Deadlines 🚀🚀🚀
+              CSConfs: CS Conference Deadlines 🚀🚀🚀
             </Typography>
           </div>
           <div>
