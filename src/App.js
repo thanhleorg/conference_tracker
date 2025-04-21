@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
 import Collapse from '@mui/material/Collapse';
@@ -190,7 +191,31 @@ function App() {
     <div>
       <header style={{ display: 'flex', alignItems: 'center', padding: '10px' }}>
         <img src={logo2} alt="dino" style={{ height: '100px', marginRight: '10px' }} />
-        <h1 style={{ margin: 0 }}>ROARS 🦖🦖🦖🦖🦖 Deadlines </h1>
+        {/* <h1 style={{ margin: 0 }}>ROARS 🦖 Lab: CS Conference Deadlines 🚀🚀🚀</h1> */}
+        <Typography
+          variant="h4"
+          component="h1"
+          sx={{
+            margin: 0,
+            fontWeight: '900',
+            letterSpacing: 2,
+            background: 'linear-gradient(45deg, #2196F3, #21CBF3, #1DE9B6)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            textShadow: '1px 1px 4px rgba(0,0,0,0.3)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1.5,
+            userSelect: 'none',
+            fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+            '@media (max-width:600px)': {
+              fontSize: '1.8rem',
+              letterSpacing: 1,
+            },
+          }}
+        >
+          ROARS 🦖 Lab: CS Conference Deadlines 🚀🚀🚀
+        </Typography>
       </header>
       <div className="App">
         {loading ? (
