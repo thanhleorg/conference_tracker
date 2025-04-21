@@ -199,7 +199,7 @@ function App() {
             margin: 0,
             fontWeight: '900',
             letterSpacing: 2,
-            background: 'linear-gradient(45deg, #2196F3, #21CBF3, #1DE9B6)',
+            background: 'rgb(23, 143, 51)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             textShadow: '1px 1px 4px rgba(0,0,0,0.3)',
@@ -214,7 +214,7 @@ function App() {
             },
           }}
         >
-          ROARS 🦖 Lab: CS Conference Deadlines 🚀🚀🚀
+          ROARS 🦖 Lab: Deadlines 🚀🚀🚀
         </Typography>
       </header>
       <div className="App">
