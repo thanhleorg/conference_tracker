@@ -53,8 +53,8 @@ const ConferenceCard = ({ conference }) => {
       variant="outlined"
       sx={{
         borderRadius: '5px',
-        padding: 2,
-        marginBottom: 3,
+        padding: 1,
+        marginBottom: 2,
         boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
         display: 'flex',
         justifyContent: 'space-between',
@@ -64,7 +64,7 @@ const ConferenceCard = ({ conference }) => {
     >
       {/* Left column: name, description, area */}
       <CardContent sx={{ flexBasis: '50%', padding: 0 }}>
-        <Typography variant="h4" fontWeight="bold" gutterBottom>
+        <Typography variant="h5" fontWeight="bold" gutterBottom>
           <StyledLink href={conference.link} target="_blank" rel="noopener noreferrer">
             {conference.name} {conference.year}
           </StyledLink>
@@ -97,10 +97,10 @@ const ConferenceCard = ({ conference }) => {
 
       {/* Right column: countdown and deadline */}
       <CardContent sx={{ flexBasis: '30%', padding: 0, textAlign: 'right' }}>
-        <Typography variant="h4" fontWeight="bold" color="error.main" sx={{ marginTop: 2. }}>
+        <Typography variant="h5" fontWeight="bold" color="error.main" sx={{ marginTop: 2. }}>
           {countdown || 'TBD'}
         </Typography>
-        <Typography variant="h6" fontWeight="bold" color="error.main" sx={{ marginTop: 0. }}>
+        <Typography fontWeight="bold" sx={{ marginTop: 0. }}>
           Deadline: {deadlineDisplay}
         </Typography>
       </CardContent>
