@@ -1,0 +1,56 @@
+.App {
+  display: flex;
+  flex-direction: row;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.sidebar {
+  width: 350px;
+  margin-right: 10px;
+}
+
+.sidebar h2 {
+  font-size: 1.2rem;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar li {
+  cursor: pointer;
+  margin: 10px 0;
+  padding: 5px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.sidebar li:hover {
+  background-color: #f0f0f0;
+}
+
+.conference-list {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.conference-card {
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+}
+
+.conference-card h3 {
+  margin-top: 0;
+  font-size: 1.5rem;
+}
+
+.conference-card span {
+  font-weight: bold;
+  color: #d9534f;
+}
