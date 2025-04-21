@@ -20,6 +20,17 @@
   acceptance_rate:
   num_submission:
 
+  - name: ICSE
+  description: International Conference on Software Engineering
+  year: 2025
+  link: https://conf.researchr.org/home/icse-2025
+  deadline: "2024-08-02"
+  note: Second Cycle
+  date: "2025-04-27"
+  place: Ontario, Canada
+  acceptance_rate:
+  num_submission:
+
 - name: FSE
   description: Foundations of Software Engineering
   year: 2026
@@ -30,17 +41,35 @@
   place: Montreal, Canada
   acceptance_rate:
   num_submission:
-  
-- name: ICSE
-  description: International Conference on Software Engineering
+
+  - name: FSE
+  description: Foundations of Software Engineering
   year: 2025
-  link: https://conf.researchr.org/home/icse-2025
-  deadline: "2024-08-02"
-  note: Second Cycle
-  date: "2025-04-27"
-  place: Ontario, Canada
+  link: https://conf.researchr.org/home/fse-2025
+  deadline: "2024-09-12"
+  note: 
+  date: "2026-06-27"
+  place: Trondheim, Norway
   acceptance_rate:
   num_submission:
+
+
+  - name: FSE
+  description: Foundations of Software Engineering
+  year: 2024
+  link: https://conf.researchr.org/home/fse-2024
+  deadline: "2023-09-28"
+  note: 
+  date: "2024-07-15"
+  place: Porto de Galinhas, Brazil
+  acceptance_rate:
+  num_submission:
+
+
+
+  
+
+
 
 - name: POPL
   description: Principles of Programming Languages
