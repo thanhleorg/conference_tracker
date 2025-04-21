@@ -73,12 +73,9 @@ const ConferenceCard = ({ conference }) => {
           {conference.description}
         </Typography>
         
-        {/* <Typography
-          variant="subtitle2"
-          sx={{ fontWeight: 'bold', fontStyle: 'italic', color: 'text.primary' }}
-        >
-          {conference.areaTitle || conference.area_title}
-        </Typography> */}
+        <Typography variant="subtitle2" sx={{ fontWeight: 'bold', fontStyle: 'italic', color: 'error.main' }}>
+          {conference.note}
+        </Typography>
       </CardContent>
 
       {/* Center column: date range and location */}

@@ -13,6 +13,18 @@ import ConferenceCard from './ConferenceCard';
 import logo2 from './t-rex.gif';
 import './App.css';
 
+const parentAreaColors = [
+  '#1f77b4',  // blue
+  '#ff7f0e',  // orange
+  '#2ca02c',  // green
+  '#9467bd',  // purple
+  '#d62728',  // red
+  '#8c564b',  // brown
+  '#e377c2',  // pink
+  '#7f7f7f',  // gray
+  '#bcbd22',  // olive
+  '#17becf',  // cyan
+];
 
 function App() {
   const [conferences, setConferences] = useState([]);
@@ -199,10 +211,11 @@ function App() {
                 fullWidth
               />
               <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
-                {Object.entries(areas).map(([parentArea, areaDetails]) => {
+                {Object.entries(areas).map(([parentArea, areaDetails], parentIndex) => {
                   const parentConfs = getConferencesByParentArea(parentArea);
+                  const parentColor = parentAreaColors[parentIndex % parentAreaColors.length];
                   return (
-                  <li key={parentArea} style={{ marginBottom: '8px' }}>
+                  <li key={parentArea} style={{ marginBottom: '8px', color: parentColor }}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                       <Checkbox
                         indeterminate={isSomeSelected(parentConfs)}
