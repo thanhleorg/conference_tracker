@@ -19,12 +19,16 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       // Fetch and parse YAML data
-      const yamlResponse = await fetch('/data/conferences.yaml');
+      const yamlResponse = await fetch('/csconfs/data/conferences.yaml');
       const yamlText = await yamlResponse.text();
       const loadedConferences = yaml.load(yamlText);
+      
+      if (!Array.isArray(loadedConferences)) {
+        throw new Error("The loaded data is not an array.");
+      }
 
       // Fetch and parse CSV data
-      const csvResponse = await fetch('/data/conferences.csv');
+      const csvResponse = await fetch('/csconfs/data/conferences.csv');
       const csvText = await csvResponse.text();
       Papa.parse(csvText, {
         header: true,
