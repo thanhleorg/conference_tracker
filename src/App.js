@@ -8,11 +8,10 @@ import TextField from '@mui/material/TextField';
 import Collapse from '@mui/material/Collapse';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
-import Papa from 'papaparse';
-import yaml from 'js-yaml';
 
-import ConferenceCard from './ConferenceCard';
-import logo2 from './t-rex-2.gif';
+import { FetchConferencesData } from './components/FetchConferences';
+import ConferenceCard from './components/ConferenceCard';
+import logo from './assets/t-rex-2.gif';
 import './App.css';
 
 const parentAreaColors = [
@@ -83,70 +82,24 @@ function App() {
     setSelectedConferences(updatedSelected);
   };
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch and parse YAML data
-        const yamlResponse = await fetch('/csconfs/data/conferences.yaml');
-        const yamlText = await yamlResponse.text();
-        const loadedConferences = yaml.load(yamlText) || [];
-
-        // Fetch and parse CSV data
-        const csvResponse = await fetch('/csconfs/data/conferences.csv');
-        const csvText = await csvResponse.text();
-
-        Papa.parse(csvText, {
-          header: true,
-          complete: (results) => {
-            const areasMap = {};
-            const conferencesMap = {};
-
-            results.data.forEach(row => {
-              const areaTitle = row.AreaTitle;
-              const parentArea = row.ParentArea || "Other";
-
-              if (!areasMap[parentArea]) {
-                areasMap[parentArea] = [];
-              }
-
-              if (!areasMap[parentArea].some(area => area.area_title === areaTitle)) {
-                areasMap[parentArea].push({
-                  area: row.Area,
-                  area_title: areaTitle
-                });
-              }
-
-              if (!conferencesMap[areaTitle]) {
-                conferencesMap[areaTitle] = new Set();
-              }
-
-              conferencesMap[areaTitle].add(row.ConferenceTitle);
-            });
-
-            const finalConferencesByArea = {};
-            Object.keys(conferencesMap).forEach(areaTitle => {
-              finalConferencesByArea[areaTitle] = Array.from(conferencesMap[areaTitle]);
-            });
-
-            setAreas(areasMap);
-            setConferencesByArea(finalConferencesByArea);
-            setConferences(loadedConferences);
-            // Collect all conferences from CSV:
-            const allConfNamesFromCSV = [];
-            Object.values(conferencesMap).forEach(setOfConfs => { allConfNamesFromCSV.push(...Array.from(setOfConfs)); });
-            setSelectedConferences(new Set(allConfNamesFromCSV));
-            setFilteredConferences(loadedConferences);
-            setLoading(false);
-          },
-        });
+        const { loadedConferences, areasMap, finalConferencesByArea, allConfNamesFromCSV } = await FetchConferencesData();
+  
+        setAreas(areasMap);
+        setConferencesByArea(finalConferencesByArea);
+        setConferences(loadedConferences);
+        setFilteredConferences(loadedConferences);
+        setSelectedConferences(new Set(allConfNamesFromCSV)); // Select all CSV conferences initially
+        setLoading(false);
       } catch (error) {
-        console.error("Error loading conferences:", error);
+        console.error(error);
       }
     };
     fetchData();
   }, []);
-
+  
   const filterConferences = () => {
     const selected = Array.from(selectedConferences);
     const updatedConferences = conferences.filter(conf => {
@@ -195,8 +148,7 @@ function App() {
   return (
     <div>
       <header style={{ display: 'flex', alignItems: 'center', padding: '10px' }}>
-        <img src={logo2} alt="dino" style={{ height: '100px', marginRight: '10px' }} />
-        {/* <h1 style={{ margin: 0 }}>ROARS 🦖 Lab: CS Conference Deadlines 🚀🚀🚀</h1> */}
+        <img src={logo} alt="dino" style={{ height: '100px', marginRight: '10px' }} />
         <div>
           <div>
             <Typography
