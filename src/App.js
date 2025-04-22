@@ -1,79 +1,66 @@
 import React, { useState, useEffect } from 'react';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
-import Collapse from '@mui/material/Collapse';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Papa from 'papaparse';
-import yaml from 'js-yaml';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
-import ConferenceCard from './ConferenceCard';
-import logo2 from './t-rex-2.gif';
+import { fetchFullData } from './components/FetchConferences';
+import ConferenceCard from './components/ConferenceCard';
+import Sidebar from './components/Sidebar';
+import Header from './components/Header';
+import Graph from './components/Graph';
 import './App.css';
-
-const parentAreaColors = [
-  '#1f77b4',  // blue
-  '#ff7f0e',  // orange
-  '#2ca02c',  // green
-  '#9467bd',  // purple
-  '#d62728',  // red
-  '#8c564b',  // brown
-  '#e377c2',  // pink
-  '#7f7f7f',  // gray
-  '#bcbd22',  // olive
-  '#17becf',  // cyan
-];
 
 function App() {
   const [conferences, setConferences] = useState([]);
   const [filteredConferences, setFilteredConferences] = useState([]);
-  const [areas, setAreas] = useState({});
-  const [selectedConferences, setSelectedConferences] = useState(new Set());
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
-  const [conferencesByArea, setConferencesByArea] = useState({});
-  
+
+  // States for both datasets
+  const [csrAreas, setCsrAreas] = useState({});
+  const [csrConfsByArea, setCsrConfsByArea] = useState({});
+  const [coreAreas, setCoreAreas] = useState({});
+  const [coreConfsByArea, setCoreConfsByArea] = useState({});
+
+  const [selectedConferences, setSelectedConferences] = useState(new Set());
+  const [openTopLevel, setOpenTopLevel] = useState({ csrankings: true, core: true });
+  // Store openParents and openAreas as objects with keys prefixed by datasetId, e.g. 'csrankings:KDD'
   const [openParents, setOpenParents] = useState({});
   const [openAreas, setOpenAreas] = useState({});
-  
-  const toggleParent = (parentArea) => {
-    setOpenParents(prev => ({ ...prev, [parentArea]: !prev[parentArea] }));
-  };
-  
-  const toggleArea = (areaTitle) => {
-    setOpenAreas(prev => ({ ...prev, [areaTitle]: !prev[areaTitle] }));
+
+  const [hidePastDeadlines, setHidePastDeadlines] = useState(true);
+
+  // Toggle parent accepts datasetId to uniquely key openParents state
+  const toggleParent = (datasetId, parentArea) => {
+    const key = `${datasetId}:${parentArea}`;
+    setOpenParents(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  // Given ParentArea name, get all conferences under it
-  const getConferencesByParentArea = (parentArea) => {
+  // Toggle area accepts datasetId to uniquely key openAreas state
+  const toggleArea = (datasetId, areaTitle) => {
+    const key = `${datasetId}:${areaTitle}`;
+    setOpenAreas(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const getConferencesByParentArea = (datasetId, parentArea) => {
+    const areasObj = datasetId === 'csrankings' ? csrAreas : coreAreas;
+    const confsByArea = datasetId === 'csrankings' ? csrConfsByArea : coreConfsByArea;
     let confs = [];
-    const areaDetails = areas[parentArea] || [];
+    const areaDetails = areasObj[parentArea] || [];
     areaDetails.forEach(({ area_title }) => {
-      confs = confs.concat(conferencesByArea[area_title] || []);
+      confs = confs.concat(confsByArea[area_title] || []);
     });
     return confs;
   };
 
-  // Given Area title, get all conferences under it
-  const getConferencesByAreaTitle = (areaTitle) => {
-    return conferencesByArea[areaTitle] || [];
+  const getConferencesByAreaTitle = (datasetId, areaTitle) => {
+    return (datasetId === 'csrankings' ? csrConfsByArea : coreConfsByArea)[areaTitle] || [];
   };
 
-  // Check if all conferences in list are selected
-  const isAllSelected = (confList) => {
-    return confList.length > 0 && confList.every(c => selectedConferences.has(c));
-  };
+  // Check selected state helpers
+  const isAllSelected = confList => confList.length > 0 && confList.every(c => selectedConferences.has(c));
+  const isSomeSelected = confList => confList.some(c => selectedConferences.has(c)) && !isAllSelected(confList);
 
-  // Check if some (but not all) selected for indeterminate state
-  const isSomeSelected = (confList) => {
-    return confList.some(c => selectedConferences.has(c)) && !isAllSelected(confList);
-  };
-
-  // Toggle multiple conferences at once: select or deselect all in confList
   const toggleMultipleConferences = (confList, select) => {
     const updatedSelected = new Set(selectedConferences);
     confList.forEach(confName => {
@@ -83,102 +70,69 @@ function App() {
     setSelectedConferences(updatedSelected);
   };
 
-
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch and parse YAML data
-        const yamlResponse = await fetch('/csconfs/data/conferences.yaml');
-        const yamlText = await yamlResponse.text();
-        const loadedConferences = yaml.load(yamlText) || [];
+    const loadData = async () => {
+      const { loadedConferences, csrankingsData, coreData } = await fetchFullData();
 
-        // Fetch and parse CSV data
-        const csvResponse = await fetch('/csconfs/data/conferences.csv');
-        const csvText = await csvResponse.text();
+      setCsrAreas(csrankingsData.areasMap);
+      setCsrConfsByArea(csrankingsData.conferencesByArea);
+      setCoreAreas(coreData.areasMap);
+      setCoreConfsByArea(coreData.conferencesByArea);
 
-        Papa.parse(csvText, {
-          header: true,
-          complete: (results) => {
-            const areasMap = {};
-            const conferencesMap = {};
+      // Select all conferences from both datasets initially
+      const allConfs = [
+        ...csrankingsData.allConferenceNames,
+        // ...coreData.allConferenceNames,
+      ];
+      
+      const initiallyCheckedConfs = allConfs.filter(
+        confName => csrankingsData.nextTierFlags[confName] === false
+      );
 
-            results.data.forEach(row => {
-              const areaTitle = row.AreaTitle;
-              const parentArea = row.ParentArea || "Other";
+      setSelectedConferences(new Set(initiallyCheckedConfs));
 
-              if (!areasMap[parentArea]) {
-                areasMap[parentArea] = [];
-              }
+      // Also set loaded YAML conferences for filtering
+      setConferences(loadedConferences);
 
-              if (!areasMap[parentArea].some(area => area.area_title === areaTitle)) {
-                areasMap[parentArea].push({
-                  area: row.Area,
-                  area_title: areaTitle
-                });
-              }
-
-              if (!conferencesMap[areaTitle]) {
-                conferencesMap[areaTitle] = new Set();
-              }
-
-              conferencesMap[areaTitle].add(row.ConferenceTitle);
-            });
-
-            const finalConferencesByArea = {};
-            Object.keys(conferencesMap).forEach(areaTitle => {
-              finalConferencesByArea[areaTitle] = Array.from(conferencesMap[areaTitle]);
-            });
-
-            setAreas(areasMap);
-            setConferencesByArea(finalConferencesByArea);
-            setConferences(loadedConferences);
-            // Collect all conferences from CSV:
-            const allConfNamesFromCSV = [];
-            Object.values(conferencesMap).forEach(setOfConfs => { allConfNamesFromCSV.push(...Array.from(setOfConfs)); });
-            setSelectedConferences(new Set(allConfNamesFromCSV));
-            setFilteredConferences(loadedConferences);
-            setLoading(false);
-          },
-        });
-      } catch (error) {
-        console.error("Error loading conferences:", error);
-      }
+      setLoading(false);
     };
-    fetchData();
+    loadData();
   }, []);
 
   const filterConferences = () => {
     const selected = Array.from(selectedConferences);
+    const now = new Date();
+  
     const updatedConferences = conferences.filter(conf => {
       const matchesConference = selected.includes(conf.name);
       const matchesSearch = conf.name.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesConference && matchesSearch;
+  
+      const deadlineDate = new Date(conf.deadline);
+      // Filter out past deadline conferences if hidePastDeadlines is true
+      const isUpcoming = !hidePastDeadlines || deadlineDate >= now;
+  
+      return matchesConference && matchesSearch && isUpcoming;
     });
-
+  
+    // (Sort as before)
     const sortedConferences = updatedConferences.sort((a, b) => {
       const deadlineA = new Date(a.deadline);
       const deadlineB = new Date(b.deadline);
-      const now = new Date();
-      if (deadlineA > now && deadlineB > now) {
-        return deadlineA - deadlineB;
-      } else if (deadlineA <= now && deadlineB <= now) {
-        return 0;
-      } else if (deadlineA > now) {
-        return -1;
-      } else {
-        return 1;
-      }
+      if (deadlineA > now && deadlineB > now) return deadlineA - deadlineB;
+      else if (deadlineA <= now && deadlineB <= now) return 0;
+      else if (deadlineA > now) return -1;
+      else return 1;
     });
-
+  
     setFilteredConferences(sortedConferences);
   };
 
   useEffect(() => {
     filterConferences();
-    // eslint-disable-next-line
-  }, [selectedConferences, searchQuery, conferences]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedConferences, searchQuery, conferences, hidePastDeadlines]);
 
-  const handleCheckboxChange = (conferenceName) => {
+  const handleCheckboxChange = conferenceName => {
     const updatedSelected = new Set(selectedConferences);
     if (updatedSelected.has(conferenceName)) {
       updatedSelected.delete(conferenceName);
@@ -188,55 +142,13 @@ function App() {
     setSelectedConferences(updatedSelected);
   };
 
-  const handleSearchChange = (event) => {
+  const handleSearchChange = event => {
     setSearchQuery(event.target.value);
   };
 
   return (
     <div>
-      <header style={{ display: 'flex', alignItems: 'center', padding: '10px' }}>
-        <img src={logo2} alt="dino" style={{ height: '100px', marginRight: '10px' }} />
-        {/* <h1 style={{ margin: 0 }}>ROARS 🦖 Lab: CS Conference Deadlines 🚀🚀🚀</h1> */}
-        <div>
-          <div>
-            <Typography
-              variant="h4"
-              component="h1"
-              sx={{
-                margin: 0,
-                fontWeight: '900',
-                letterSpacing: 2,
-                background: 'rgb(117, 177, 109)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                textShadow: '1px 1px 4px rgba(0,0,0,0.3)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1.5,
-                userSelect: 'none',
-                fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-                '@media (max-width:600px)': {
-                  fontSize: '1.8rem',
-                  letterSpacing: 1,
-                },
-              }}
-            >
-              CSConfs: CS Conference Deadlines 🚀🚀🚀
-            </Typography>
-          </div>
-          <div>
-            <Typography
-              variant="body2"
-              component="div"
-              sx={{ marginTop: 1, color: 'text.secondary', userSelect: 'text' }}
-            >
-              <Link href="https://git.roars.dev/csconfs" target="_blank" rel="noopener" underline="hover">
-                git.roars.dev/csconfs
-              </Link>
-            </Typography>
-          </div>
-        </div>
-      </header>
+      <Header />
       <div className="App">
         {loading ? (
           <div style={{ textAlign: 'center', marginTop: '20px' }}>
@@ -246,6 +158,16 @@ function App() {
           <>
             <div className="sidebar">
               <h2>Filters</h2>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={hidePastDeadlines}
+                    onChange={e => setHidePastDeadlines(e.target.checked)}
+                    color="primary"
+                  />
+                }
+                label="Hide past deadline conferences"
+              />
               <TextField
                 label="Search by conference name"
                 variant="outlined"
@@ -255,89 +177,39 @@ function App() {
                 style={{ marginBottom: '20px', width: '100%', fontSize: '1.0rem' }}
                 fullWidth
               />
-              <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
-                {Object.entries(areas).map(([parentArea, areaDetails], parentIndex) => {
-                  const parentConfs = getConferencesByParentArea(parentArea);
-                  const parentColor = parentAreaColors[parentIndex % parentAreaColors.length];
-                  return (
-                  <li key={parentArea} style={{ marginBottom: '8px', color: parentColor }}>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <Checkbox
-                        indeterminate={isSomeSelected(parentConfs)}
-                        checked={isAllSelected(parentConfs)}
-                        onChange={(e) => toggleMultipleConferences(parentConfs, e.target.checked)}
-                        color="primary"
-                        size="small"
-                        style={{ padding: 0, marginRight: 4 }}
-                      />
-                      <div
-                        style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', flexGrow: 1 }}
-                        onClick={() => toggleParent(parentArea)}
-                      >
-                        <IconButton size="small">
-                          {openParents[parentArea] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                        </IconButton>
-                        <strong>{parentArea}</strong>
-                      </div>
-                    </div>
-                    <Collapse in={openParents[parentArea]} timeout="auto" unmountOnExit>
-                      <ul style={{ listStyle: 'none', paddingLeft: '24px' }}>
-                        {areaDetails.map(({ area_title }) => {
-                          const areaConfs = getConferencesByAreaTitle(area_title);
-                          return (
-                            <li key={area_title} style={{ marginBottom: '4px' }}>
-                              <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <Checkbox
-                                  indeterminate={isSomeSelected(areaConfs)}
-                                  checked={isAllSelected(areaConfs)}
-                                  onChange={(e) => toggleMultipleConferences(areaConfs, e.target.checked)}
-                                  color="primary"
-                                  size="small"
-                                  style={{ padding: 0, marginRight: 4 }}
-                                />
-                                <div
-                                  style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', flexGrow: 1 }}
-                                  onClick={() => toggleArea(area_title)}
-                                >
-                                  <IconButton size="small">
-                                    {openAreas[area_title] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                                  </IconButton>
-                                  <strong>{area_title}</strong>
-                                </div>
-                              </div>
-                              <Collapse in={openAreas[area_title]} timeout="auto" unmountOnExit>
-                                <ul style={{ listStyle: 'none', paddingLeft: '24px' }}>
-                                  {conferencesByArea[area_title]?.map(conferenceName => (
-                                    <li key={conferenceName}>
-                                      <FormControlLabel
-                                        control={
-                                          <Checkbox
-                                            checked={selectedConferences.has(conferenceName)}
-                                            onChange={() => handleCheckboxChange(conferenceName)}
-                                            color="primary"
-                                            size="small"
-                                          />
-                                        }
-                                        label={conferenceName}
-                                      />
-                                    </li>
-                                  ))}
-                                </ul>
-                              </Collapse>
-                            </li>
-                          )
-                        })}
-                      </ul>
-                    </Collapse>
-                  </li>
-                  )
-                })}
-              </ul>
+              <Sidebar
+                datasets={{
+                  csrankings: { areas: csrAreas, conferencesByArea: csrConfsByArea },
+                  core: { areas: coreAreas, conferencesByArea: coreConfsByArea },
+                }}
+                selectedConferences={selectedConferences}
+                openTopLevel={openTopLevel}
+                setOpenTopLevel={setOpenTopLevel}
+                openParents={openParents}
+                setOpenParents={setOpenParents}
+                openAreas={openAreas}
+                setOpenAreas={setOpenAreas}
+                toggleMultipleConferences={toggleMultipleConferences}
+                handleCheckboxChange={handleCheckboxChange}
+                getConferencesByParentArea={getConferencesByParentArea}
+                getConferencesByAreaTitle={getConferencesByAreaTitle}
+                isAllSelected={isAllSelected}
+                isSomeSelected={isSomeSelected}
+                toggleParent={toggleParent}
+                toggleArea={toggleArea}
+              />
             </div>
-            <div className="conference-list">
-              {filteredConferences.map(conf => (
-                <ConferenceCard key={`${conf.name}-${conf.year}`} conference={conf} />
-              ))}
+           
+
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }} className="conference-list">
+              <div style={{ width: '90%', marginBottom: 16 }}> 
+                <Graph conferences={filteredConferences} />
+              </div>
+              <div style={{ width: '100%' }}>
+                {filteredConferences.map(conf => (
+                  <ConferenceCard key={`${conf.name}-${conf.year}`} conference={conf} />
+                ))}
+              </div>
             </div>
           </>
         )}

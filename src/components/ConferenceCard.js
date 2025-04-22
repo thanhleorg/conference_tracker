@@ -38,7 +38,7 @@ const ConferenceCard = ({ conference }) => {
       setCountdown(calculateCountdown(conference.deadline));
     }, 1000);
     return () => clearInterval(interval);
-  }, [conference.deadline]);
+  });
 
   // Format date range or fallback
   const dateRangeDisplay = conference.date 
@@ -47,6 +47,10 @@ const ConferenceCard = ({ conference }) => {
   const deadlineDisplay = conference.deadline
     ? new Date(conference.deadline).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })
     : 'TBD'; // example fallback text from screenshot
+
+  const notificationDateDisplay = conference.notification_date
+  ? new Date(conference.notification_date).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })
+  : 'TBD'; // example fallback text from screenshot
 
   return (
     <Card
@@ -99,6 +103,9 @@ const ConferenceCard = ({ conference }) => {
         </Typography>
         <Typography fontWeight="bold" sx={{ marginTop: 0. }}>
           Deadline: {deadlineDisplay}
+        </Typography>
+        <Typography sx={{ marginTop: 0. }}>
+          Notification: {notificationDateDisplay}
         </Typography>
       </CardContent>
     </Card>
