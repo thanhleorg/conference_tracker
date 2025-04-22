@@ -35,8 +35,14 @@ const CustomTooltip = ({ active, payload }) => {
 
 export default function Graph({ conferences }) {
   // Filter conferences having both required dates
+  const nowDay = Math.floor(Date.now() / (1000 * 60 * 60 * 24)); // today in days since epoch
+
   const events = conferences
     .filter(c => c.deadline && c.notification_date)
+    .filter(c => {
+      const deadlineDay = Math.floor(new Date(c.deadline).getTime() / (1000 * 60 * 60 * 24));
+      return deadlineDay >= nowDay; // keep only upcoming deadlines (today or in the future)
+    })
     .map((c, idx) => {
       const start = parseDateToDays(c.deadline);
       const end = parseDateToDays(c.notification_date);
