@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+
 import { fetchFullData } from './components/FetchConferences';
 import ConferenceCard from './components/ConferenceCard';
 import Sidebar from './components/Sidebar';
@@ -23,6 +26,8 @@ function App() {
   // Store openParents and openAreas as objects with keys prefixed by datasetId, e.g. 'csrankings:KDD'
   const [openParents, setOpenParents] = useState({});
   const [openAreas, setOpenAreas] = useState({});
+
+  const [hidePastDeadlines, setHidePastDeadlines] = useState(true);
 
   // Toggle parent accepts datasetId to uniquely key openParents state
   const toggleParent = (datasetId, parentArea) => {
@@ -90,32 +95,36 @@ function App() {
 
   const filterConferences = () => {
     const selected = Array.from(selectedConferences);
+    const now = new Date();
+  
     const updatedConferences = conferences.filter(conf => {
       const matchesConference = selected.includes(conf.name);
       const matchesSearch = conf.name.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesConference && matchesSearch;
+  
+      const deadlineDate = new Date(conf.deadline);
+      // Filter out past deadline conferences if hidePastDeadlines is true
+      const isUpcoming = !hidePastDeadlines || deadlineDate >= now;
+  
+      return matchesConference && matchesSearch && isUpcoming;
     });
+  
+    // (Sort as before)
     const sortedConferences = updatedConferences.sort((a, b) => {
       const deadlineA = new Date(a.deadline);
       const deadlineB = new Date(b.deadline);
-      const now = new Date();
-      if (deadlineA > now && deadlineB > now) {
-        return deadlineA - deadlineB;
-      } else if (deadlineA <= now && deadlineB <= now) {
-        return 0;
-      } else if (deadlineA > now) {
-        return -1;
-      } else {
-        return 1;
-      }
+      if (deadlineA > now && deadlineB > now) return deadlineA - deadlineB;
+      else if (deadlineA <= now && deadlineB <= now) return 0;
+      else if (deadlineA > now) return -1;
+      else return 1;
     });
+  
     setFilteredConferences(sortedConferences);
   };
 
   useEffect(() => {
     filterConferences();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedConferences, searchQuery, conferences]);
+  }, [selectedConferences, searchQuery, conferences, hidePastDeadlines]);
 
   const handleCheckboxChange = conferenceName => {
     const updatedSelected = new Set(selectedConferences);
@@ -143,6 +152,16 @@ function App() {
           <>
             <div className="sidebar">
               <h2>Filters</h2>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={hidePastDeadlines}
+                    onChange={e => setHidePastDeadlines(e.target.checked)}
+                    color="primary"
+                  />
+                }
+                label="Hide past deadline conferences"
+              />
               <TextField
                 label="Search by conference name"
                 variant="outlined"
