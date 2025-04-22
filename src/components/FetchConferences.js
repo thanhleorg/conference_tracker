@@ -11,10 +11,15 @@ async function parseCSV(url) {
       complete: (results) => {
         const areasMap = {};
         const conferencesMap = {};
+        const nextTierFlags = {}; // confName -> boolean false if NextTier='False', true otherwise
 
         results.data.forEach(row => {
           const areaTitle = row.AreaTitle;
           const parentArea = row.ParentArea;
+
+          const confName = row.ConferenceTitle;
+          const isNextTier = row.NextTier && row.NextTier.toLowerCase() === 'true';
+          nextTierFlags[confName] = isNextTier;
 
           if (!areasMap[parentArea]) {
             areasMap[parentArea] = [];
@@ -41,6 +46,7 @@ async function parseCSV(url) {
           areasMap,
           conferencesByArea: finalConferencesByArea,
           allConferenceNames: Object.values(conferencesMap).flatMap(set => Array.from(set)),
+          nextTierFlags,
         });
       },
       error: (err) => reject(err)

@@ -83,7 +83,12 @@ function App() {
         ...csrankingsData.allConferenceNames,
         // ...coreData.allConferenceNames,
       ];
-      setSelectedConferences(new Set(allConfs));
+      
+      const initiallyCheckedConfs = allConfs.filter(
+        confName => csrankingsData.nextTierFlags[confName] === false
+      );
+
+      setSelectedConferences(new Set(initiallyCheckedConfs));
 
       // Also set loaded YAML conferences for filtering
       setConferences(loadedConferences);
