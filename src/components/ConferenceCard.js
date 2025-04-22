@@ -38,7 +38,7 @@ const ConferenceCard = ({ conference }) => {
       setCountdown(calculateCountdown(conference.deadline));
     }, 1000);
     return () => clearInterval(interval);
-  }, [conference.deadline]);
+  });
 
   // Format date range or fallback
   const dateRangeDisplay = conference.date 
