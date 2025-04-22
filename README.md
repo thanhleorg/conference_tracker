@@ -1,39 +1,81 @@
 
+# 📅 CS Conference Deadlines & Locations @ [roars.dev/csconfs](https://roars.dev/csconfs/)
 
-# Contributes
-- You can contribute to this project by checking, adding, and fixing data in **`public/data/conferences.yaml`** file.
-- There are many examples in the file, so you can use them as a reference.
+**CSConfs** is a simple and open-source website for tracking **Computer Science conference deadlines**, **notifications**, **locations**, and more! 🎯
+Whether you're submitting papers, attending conferences, or just curious about upcoming CS events, this site helps keep everything in one place. It's inspired by platforms like CSRankings and CORE*, but focuses purely on logistics---no rankings, just practical info.
+
+---
+
+## 🌐 Live Site
+
+Visit here 👉 [https://roars.dev/csconfs/](https://roars.dev/csconfs/)
+
+---
+
+## 📂 Project Structure
+
+- **Open**: This website is open-source and hosted on **GitHub Pages**.  
+- **Tech stuff**: This website is built using **React** and **Node.js**. It is a **static site** that fetches data from a **YAML** file.
+- **Data:** Main information is stored in **`public/data/conferences.yaml`**.
+
+---
+
+## 🤝 Contributions
+
+We welcome contributions! 🛠️
+
+### How to contribute:
+> You can help **check**, **add**, or **fix** conference data in **`public/data/conferences.yaml`**.  Use the existing entries as examples to maintain formatting and consistency.
+
+- **Fork** the repository.
+- **Clone** your forked repository to your local machine.
+- Make your changes in the `public/data/conferences.yaml` file.
+- **Test** your changes locally (see below).
+- **Commit** and **Push** your changes with a clear message.
+- Create a **pull request** to the original repository.
+- If you have questions or comments, feel free to open a [Github issue](https://github.com/dynaroars/csconfs/issues).
 
 
+---
 
+## 🧪 To Test Locally
 
-## To Test 
-- First install the dependencies
+1. **Install dependencies**:
+
 ```bash
-# node -v # v23.11.0
-# npm -v # 11.3.0
+# Check versions:
+node -v  # v23.11.0 (on my Mac OS)
+npm -v   # 11.3.0 (on my Mac OS)
 
-# in the root directory
-npm install 
+# In the project root, e.g., ~/git/csconfs/ 
+npm install
 ```
 
-- Then run the server to look at the page
+2. **Run the local server**:
+
 ```bash
 npm run start
 ```
 
+3. **View in browser**:
 
-- Then open the browser and go to `http://localhost:3000/` to see the page.
- 
+```
+http://localhost:3000/
+```
 
+---
 
-## To Deploy to Github Pages
-- Git commit your changes
-- Git push your changes to the `main` branch
+## 🚀 Deploy to GitHub Pages
+> Deploy to `roars.dev/csconfs` (only for maintainers):
 
-
-- Then run the following command to deploy the changes to Github Pages (`gh-pages` branch)
 ```bash
 npm run deploy
 ```
-- You should not have to switch branches manually, the script will do it for you. You should always be on the `main` branch.
+
+- The script handles deployment to the `gh-pages` branch.
+- Stay on the `main` branch—no manual branch switching needed!
+
+---
+
+
+Enjoy tracking your CS conferences! 🎉
