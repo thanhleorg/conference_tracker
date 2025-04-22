@@ -24,10 +24,11 @@ const CustomTooltip = ({ active, payload }) => {
   return (
     <div style={{ background: '#fff', border: '1px solid #ccc', padding: 10 }}>
       <strong>{conf.name}</strong>
-      <div>Deadline: {new Date(conf.deadline).toLocaleDateString()}</div>
-      <div>Notification: {new Date(conf.notification_date).toLocaleDateString()}</div>
       <div>
-        Duration: {conf.length.toFixed(1)} day{conf.length !== 1 ? 's' : ''}
+        Deadline: {new Date(conf.deadline).toLocaleDateString()} ({Math.max(0, Math.floor((new Date(conf.deadline) - new Date()) / (1000 * 60 * 60 * 24)))} days)
+      </div>
+      <div>
+        Notification: {new Date(conf.notification_date).toLocaleDateString()} ({Math.max(0, Math.floor((new Date(conf.notification_date) - new Date()) / (1000 * 60 * 60 * 24)))} days)
       </div>
     </div>
   );
@@ -63,7 +64,12 @@ export default function Graph({ conferences }) {
   }
 
   // Calculate earliest start date
-  const minStart = Math.min(...events.map(e => e.start));
+  const now = new Date();
+  const todayUTCmidnight = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  const todayInDays = Math.floor(todayUTCmidnight / (1000 * 60 * 60 * 24));
+
+  // const minStart = Math.min(...events.map(e => e.start));
+  const minStart = todayInDays;
   const maxEnd = Math.max(...events.map(e => e.start + e.length));
 
   // Normalize starts relative to earliest date
@@ -90,12 +96,12 @@ export default function Graph({ conferences }) {
   ];
 
   return (
-    <ResponsiveContainer width="100%" height={50 + data.length * 40}>
+    <ResponsiveContainer width="100%" height={50 + data.length * 60}>
       <BarChart
         layout="vertical"
         data={data}
-        margin={{ top: 20, right: 0, left: 0, bottom: 20 }} 
-        barCategoryGap={15}
+        margin={{ top: 50, right: 0, left: 0, bottom: 20 }} 
+        // barCategoryGap={50}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis
@@ -105,14 +111,14 @@ export default function Graph({ conferences }) {
             const realDate = new Date((minStart + tick) * 24 * 60 * 60 * 1000);
             return realDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
           }}
-          // label={{ value: 'Date', position: 'insideBottom', offset: -10 }}
-          tickCount={6}
+          tickCount={10}
           interval="preserveStartEnd"
-        />
+          // label={{ value: 'Date', position: 'insideBottom', offset: -10 }}
+          />
         <YAxis
           type="category"
           dataKey="name"
-          width={180} // increased left width for long labels
+          width={150} // increased left width for long labels
           interval={0}
           axisLine={false}
           tickLine={false}
@@ -125,17 +131,17 @@ export default function Graph({ conferences }) {
           fill="transparent"
           isAnimationActive={false}
           legendType="none"
-          barSize={25}
+          barSize={30}
         />
         <Bar
           dataKey="length"
           stackId="a"
           isAnimationActive={false}
           minPointSize={5}
-          barSize={25} // nicer thickness
           radius={[4, 4, 4, 4]} // rounded corners: top-left, top-right, bottom-right, bottom-left
           stroke="#555" // subtle border color
           strokeWidth={1}
+          // barSize={35}
         >
           {data.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
