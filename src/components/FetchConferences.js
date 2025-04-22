@@ -1,70 +1,70 @@
-import Papa from 'papaparse';
+// components/fetchConferences.js
 import yaml from 'js-yaml';
+import Papa from 'papaparse';
 
-export async function FetchConferencesData() {
+async function parseCSV(url) {
+  const response = await fetch(url);
+  const text = await response.text();
+
+  return new Promise((resolve, reject) => {
+    Papa.parse(text, {
+      header: true,
+      complete: (results) => {
+        const areasMap = {};
+        const conferencesMap = {};
+
+        results.data.forEach(row => {
+          const areaTitle = row.AreaTitle;
+          const parentArea = row.ParentArea;
+
+          if (!areasMap[parentArea]) {
+            areasMap[parentArea] = [];
+          }
+          if (!areasMap[parentArea].some(area => area.area_title === areaTitle)) {
+            areasMap[parentArea].push({
+              area: row.Area,
+              area_title: areaTitle,
+            });
+          }
+
+          if (!conferencesMap[areaTitle]) {
+            conferencesMap[areaTitle] = new Set();
+          }
+          conferencesMap[areaTitle].add(row.ConferenceTitle);
+        });
+
+        const finalConferencesByArea = {};
+        Object.keys(conferencesMap).forEach(areaTitle => {
+          finalConferencesByArea[areaTitle] = Array.from(conferencesMap[areaTitle]);
+        });
+
+        resolve({
+          areasMap,
+          conferencesByArea: finalConferencesByArea,
+          allConferenceNames: Object.values(conferencesMap).flatMap(set => Array.from(set)),
+        });
+      },
+      error: (err) => reject(err)
+    });
+  });
+}
+
+export async function fetchFullData() {
   try {
-    // Fetch and parse YAML data
     const yamlResponse = await fetch('/csconfs/data/conferences.yaml');
     const yamlText = await yamlResponse.text();
     const loadedConferences = yaml.load(yamlText) || [];
 
-    // Fetch and parse CSV data
-    const csvResponse = await fetch('/csconfs/data/conferences.csv');
-    const csvText = await csvResponse.text();
+    const csrankingsData = await parseCSV('/csconfs/data/csrankings_conferences.csv');
+    const coreData = await parseCSV('/csconfs/data/core_conferences.csv');
 
-    return new Promise((resolve, reject) => {
-      Papa.parse(csvText, {
-        header: true,
-        complete: (results) => {
-          const areasMap = {};
-          const conferencesMap = {};
-
-          results.data.forEach(row => {
-            const areaTitle = row.AreaTitle;
-            const parentArea = row.ParentArea || "Other";
-
-            if (!areasMap[parentArea]) {
-              areasMap[parentArea] = [];
-            }
-            if (!areasMap[parentArea].some(area => area.area_title === areaTitle)) {
-              areasMap[parentArea].push({
-                area: row.Area,
-                area_title: areaTitle
-              });
-            }
-
-            if (!conferencesMap[areaTitle]) {
-              conferencesMap[areaTitle] = new Set();
-            }
-            conferencesMap[areaTitle].add(row.ConferenceTitle);
-          });
-
-          const finalConferencesByArea = {};
-          Object.keys(conferencesMap).forEach(areaTitle => {
-            finalConferencesByArea[areaTitle] = Array.from(conferencesMap[areaTitle]);
-          });
-
-          // Gather all CSV conference names for initial selection
-          const allConfNamesFromCSV = [];
-          Object.values(conferencesMap).forEach(setOfConfs => {
-            allConfNamesFromCSV.push(...Array.from(setOfConfs));
-          });
-
-          resolve({
-            loadedConferences,
-            areasMap,
-            finalConferencesByArea,
-            allConfNamesFromCSV,
-          });
-        },
-        error: (error) => {
-          reject(error);
-        }
-      });
-    });
-
-  } catch (error) {
-    console.error("Error loading conferences:", error);
-    throw error;
+    return {
+      loadedConferences,
+      csrankingsData,
+      coreData,
+    };
+  } catch (err) {
+    console.error('Error loading conferences:', err);
+    throw err;
   }
 }
