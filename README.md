@@ -2,7 +2,7 @@
 # 📅 CS Conference Deadlines & Locations @ [roars.dev/csconfs](https://roars.dev/csconfs/)
 
 **CSConfs** is a simple and open-source website for tracking **Computer Science conference deadlines**, **notifications**, **locations**, and more! 🎯
-Whether you're submitting papers, attending conferences, or just curious about upcoming CS events, this site helps keep everything in one place. It's inspired by platforms like CSRankings and CORE*, but focuses purely on logistics---no rankings, just practical info.
+csconfs uses conferences defined by CSRankings and CORE*.  Whether you're submitting papers, attending conferences, or just curious about upcoming CS events, this site helps keep things in one place. 
 
 ---
 
