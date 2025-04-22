@@ -122,6 +122,127 @@
   num_submission:
 
 
+- name: IMC
+  description: ACM Internet Measurement Conference
+  year: 2025
+  link: https://conferences.sigcomm.org/imc/2025/
+  deadline: "2025-05-15"
+  note: "Second Cycle"
+  date: "2025-10-28"
+  place: Madison, Wisconsin, USA
+  acceptance_rate:
+  num_submission:
+
+- name: IMC
+  description: ACM Internet Measurement Conference
+  year: 2025
+  link: https://conferences.sigcomm.org/imc/2025/
+  deadline: "2024-11-21"
+  note: "First Cycle"
+  date: "2025-10-28"
+  place: Madison, Wisconsin, USA
+  acceptance_rate:
+  num_submission:
+
+- name: IMC
+  description: ACM Internet Measurement Conference
+  year: 2024
+  link: https://conferences.sigcomm.org/imc/2024/
+  deadline: "2024-05-15"
+  note: 
+  date: "2024-11-04"
+  place: Madrid, Spain
+  acceptance_rate:
+  num_submission:
+
+- name: IMC
+  description: ACM Internet Measurement Conference
+  year: 2023
+  link: https://conferences.sigcomm.org/imc/2023/
+  deadline: "2023-05-26"
+  note: "Abstract deadline: 2023-05-20"
+  date: "2023-10-24"
+  place: Montreal, Canada
+  acceptance_rate:
+  num_submission:
+
+- name: IMC
+  description: ACM Internet Measurement Conference
+  year: 2022
+  link: https://conferences.sigcomm.org/imc/2022/
+  deadline: "2022-05-18"
+  note: "Abstract deadline: 2022-05-11"
+  date: "2022-10-25"
+  place: Nice, France
+  acceptance_rate:
+  num_submission:
+
+- name: IMC
+  description: ACM Internet Measurement Conference
+  year: 2021
+  link: https://conferences.sigcomm.org/imc/2021/
+  deadline: "2021-05-26"
+  note: "Abstract deadline: 2021-05-19"
+  date: "2021-11-02"
+  place: Virtual Conference
+  acceptance_rate:
+  num_submission:
+
+- name: IMC
+  description: ACM Internet Measurement Conference
+  year: 2020
+  link: https://conferences.sigcomm.org/imc/2020/
+  deadline: "2020-05-26"
+  note: "Abstract deadline: 2020-05-19"
+  date: "2020-10-27"
+  place: Pittsburgh, Pennsylvania, USA
+  acceptance_rate:
+  num_submission:
+
+- name: IMC
+  description: ACM Internet Measurement Conference
+  year: 2019
+  link: https://conferences.sigcomm.org/imc/2019/
+  deadline: "2019-05-13"
+  note: "Abstract deadline: 2019-05-06"
+  date: "2019-10-21"
+  place: Amsterdam, Netherlands
+  acceptance_rate:
+  num_submission:
+
+- name: IMC
+  description: ACM Internet Measurement Conference
+  year: 2018
+  link: https://conferences.sigcomm.org/imc/2018/
+  deadline: "2018-05-18"
+  note: "Abstract deadline: 2018-05-11"
+  date: "2018-10-31"
+  place: Boston, Massachusetts, USA
+  acceptance_rate:
+  num_submission:
+
+- name: IMC
+  description: ACM Internet Measurement Conference
+  year: 2017
+  link: https://conferences.sigcomm.org/imc/2017/
+  deadline: "2017-05-19"
+  note: "Abstract deadline: 2017-05-12"
+  date: "2017-11-01"
+  place: London, United Kingdom
+  acceptance_rate:
+  num_submission:
+
+- name: IMC
+  description: ACM Internet Measurement Conference
+  year: 2016
+  link: https://conferences.sigcomm.org/imc/2016/
+  deadline: "2016-05-12"
+  note: "Abstract deadline: 2016-05-05"
+  date: "2016-11-14"
+  place: Santa Monica, California, USA
+  acceptance_rate:
+  num_submission:
+
 
 # - name: 
 #   description: 
