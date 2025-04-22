@@ -1,4 +1,3 @@
-// components/fetchConferences.js
 import yaml from 'js-yaml';
 import Papa from 'papaparse';
 
