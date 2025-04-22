@@ -10,11 +10,15 @@ import {
   Cell,
 } from 'recharts';
 
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+const SYNTHESIZED_DAYS = 90;
+
 // Parse date string to number of days since epoch (UTC midnight)
 const parseDateToDays = (dateStr) => {
   const d = new Date(dateStr);
   if (isNaN(d)) return null;
-  return Math.floor(d.getTime() / (1000 * 60 * 60 * 24));
+  return Math.floor(d.getTime() / DAY_MS);
 };
 
 // Custom tooltip showing conference info
@@ -25,35 +29,51 @@ const CustomTooltip = ({ active, payload }) => {
     <div style={{ background: '#fff', border: '1px solid #ccc', padding: 10 }}>
       <strong>{conf.name}</strong>
       <div>
-        Deadline: {new Date(conf.deadline).toLocaleDateString()} ({Math.max(0, Math.floor((new Date(conf.deadline) - new Date()) / (1000 * 60 * 60 * 24)))} days)
+        Deadline: {new Date(conf.deadline).toLocaleDateString()} ({Math.max(0, Math.floor((new Date(conf.deadline) - new Date()) / DAY_MS))} days)
       </div>
       <div>
-        Notification: {new Date(conf.notification_date).toLocaleDateString()} ({Math.max(0, Math.floor((new Date(conf.notification_date) - new Date()) / (1000 * 60 * 60 * 24)))} days)
+        Notification: {conf.isSynthesized ? 'TBD ' : new Date(conf.notification_date).toLocaleDateString()} 
+        ({conf.isSynthesized ? 'TBD' : Math.max(0, Math.floor((new Date(conf.notification_date) - new Date()) / DAY_MS))} days)
       </div>
     </div>
   );
 };
 
+
 export default function Graph({ conferences }) {
   // Filter conferences having both required dates
-  const nowDay = Math.floor(Date.now() / (1000 * 60 * 60 * 24)); // today in days since epoch
+  const nowDay = Math.floor(Date.now() / DAY_MS); // today in days since epoch
 
   const events = conferences
-    .filter(c => c.deadline && c.notification_date)
+    .filter(c => c.deadline)
     .filter(c => {
-      const deadlineDay = Math.floor(new Date(c.deadline).getTime() / (1000 * 60 * 60 * 24));
+      const deadlineDay = Math.floor(new Date(c.deadline).getTime() / DAY_MS);
       return deadlineDay >= nowDay; // keep only upcoming deadlines (today or in the future)
     })
     .map((c, idx) => {
       const start = parseDateToDays(c.deadline);
-      const end = parseDateToDays(c.notification_date);
-      if (start === null || end === null || end < start) return null;
+      // const end = parseDateToDays(c.notification_date);
+      if (start === null) return null;
+      let notificationTs;
+      let isSynthesized = false;
+      if (c.notification_date) {
+        const notif = parseDateToDays(c.notification_date);
+        if (notif === null) return null;
+        notificationTs = notif;
+      } else {
+        // synthesize notification_date = deadline + 90 days
+        notificationTs = start + SYNTHESIZED_DAYS;
+        isSynthesized = true;
+      }
+      if (notificationTs < start) return null;
+
       return {
         name: c.name + (c.year ? ` ${c.year}` : ''),
         start,
-        length: end - start,
+        length: notificationTs - start,
         deadline: c.deadline,
-        notification_date: c.notification_date,
+        notification_date: new Date((notificationTs) * DAY_MS).toISOString(),
+        isSynthesized,
         yIndex: idx,
       };
     })
@@ -66,7 +86,7 @@ export default function Graph({ conferences }) {
   // Calculate earliest start date
   const now = new Date();
   const todayUTCmidnight = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
-  const todayInDays = Math.floor(todayUTCmidnight / (1000 * 60 * 60 * 24));
+  const todayInDays = Math.floor(todayUTCmidnight / DAY_MS);
 
   // const minStart = Math.min(...events.map(e => e.start));
   const minStart = todayInDays;
@@ -103,12 +123,17 @@ export default function Graph({ conferences }) {
         margin={{ top: 50, right: 0, left: 0, bottom: 20 }} 
         // barCategoryGap={50}
       >
+        <defs>
+          <pattern id="dashedPattern" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <rect x="0" y="0" width="4" height="1" fill="#888" />
+          </pattern>
+        </defs>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis
           type="number"
           domain={[domainStart, domainEnd]}
           tickFormatter={tick => {
-            const realDate = new Date((minStart + tick) * 24 * 60 * 60 * 1000);
+            const realDate = new Date((minStart + tick) * DAY_MS);
             return realDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
           }}
           tickCount={10}
@@ -134,17 +159,26 @@ export default function Graph({ conferences }) {
           barSize={30}
         />
         <Bar
+          radius={[4, 4, 4, 4]} // rounded corners: top-left, top-right, bottom-right, bottom-left
+          stroke="#555" // subtle border color
+          strokeWidth={1}
           dataKey="length"
           stackId="a"
           isAnimationActive={false}
           minPointSize={5}
-          radius={[4, 4, 4, 4]} // rounded corners: top-left, top-right, bottom-right, bottom-left
-          stroke="#555" // subtle border color
-          strokeWidth={1}
-          // barSize={35}
+          // barSize={18}
         >
           {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+            // <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+            <Cell
+              key={`cell-${index}`}
+              fill={colors[index % colors.length]}
+              // stroke={entry.isSynthesized ? '#555' : undefined}
+              // strokeWidth={entry.isSynthesized ? 2 : 1}
+              fillOpacity={entry.isSynthesized ? 0.4 : 1}
+              // fill dashed pattern if synthesized
+              {...(entry.isSynthesized ? { fill: "url(#dashedPattern)" } : {})}
+            />
           ))}
         </Bar>
       </BarChart>
