@@ -7,6 +7,7 @@ import { fetchFullData } from './components/FetchConferences';
 import ConferenceCard from './components/ConferenceCard';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
+import Graph from './components/Graph';
 import './App.css';
 
 function App() {
@@ -198,10 +199,17 @@ function App() {
                 toggleArea={toggleArea}
               />
             </div>
-            <div className="conference-list">
-              {filteredConferences.map(conf => (
-                <ConferenceCard key={`${conf.name}-${conf.year}`} conference={conf} />
-              ))}
+           
+
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }} className="conference-list">
+              <div style={{ width: '90%', marginBottom: 16 }}> 
+                <Graph conferences={filteredConferences} />
+              </div>
+              <div style={{ width: '100%' }}>
+                {filteredConferences.map(conf => (
+                  <ConferenceCard key={`${conf.name}-${conf.year}`} conference={conf} />
+                ))}
+              </div>
             </div>
           </>
         )}
