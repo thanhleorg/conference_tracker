@@ -2532,7 +2532,147 @@
   num_submission: 
   general_chair: 
   program_chair: 
+
 ## Computer Security
+- name: CCS
+  description: ACM Conference on Computer and Communications Security
+  year: 2025
+  link: https://www.sigsac.org/ccs/CCS2025/
+  deadline: "2025-05-15"
+  note: 
+  abstract_deadline: "2025-05-08"
+  date: "2025-11-10"
+  place: TBD
+  acceptance_rate: 
+  num_submission: 
+  general_chair: 
+  program_chair: 
+
+- name: CCS
+  description: ACM Conference on Computer and Communications Security
+  year: 2024
+  link: https://www.sigsac.org/ccs/CCS2024/
+  deadline: "2024-05-15"
+  note: 
+  abstract_deadline: "2024-05-08"
+  date: "2024-11-11"
+  place: TBD
+  acceptance_rate: 
+  num_submission: 
+  general_chair: 
+  program_chair: 
+
+- name: CCS
+  description: ACM Conference on Computer and Communications Security
+  year: 2023
+  link: https://www.sigsac.org/ccs/CCS2023/
+  deadline: "2023-05-15"
+  note: 
+  abstract_deadline: "2023-05-08"
+  date: "2023-11-13"
+  place: TBD
+  acceptance_rate: 
+  num_submission: 
+  general_chair: 
+  program_chair: 
+
+- name: CCS
+  description: ACM Conference on Computer and Communications Security
+  year: 2022
+  link: https://www.sigsac.org/ccs/CCS2022/
+  deadline: "2022-05-15"
+  note: 
+  abstract_deadline: "2022-05-08"
+  date: "2022-11-14"
+  place: TBD
+  acceptance_rate: 
+  num_submission: 
+  general_chair: 
+  program_chair: 
+
+- name: CCS
+  description: ACM Conference on Computer and Communications Security
+  year: 2021
+  link: https://www.sigsac.org/ccs/CCS2021/
+  deadline: "2021-05-15"
+  note: 
+  abstract_deadline: "2021-05-08"
+  date: "2021-11-15"
+  place: TBD
+  acceptance_rate: 
+  num_submission: 
+  general_chair: 
+  program_chair: 
+
+- name: CCS
+  description: ACM Conference on Computer and Communications Security
+  year: 2020
+  link: https://www.sigsac.org/ccs/CCS2020/
+  deadline: "2020-05-15"
+  note: 
+  abstract_deadline: "2020-05-08"
+  date: "2020-11-16"
+  place: TBD
+  acceptance_rate: 
+  num_submission: 
+  general_chair: 
+  program_chair: 
+
+- name: CCS
+  description: ACM Conference on Computer and Communications Security
+  year: 2019
+  link: https://www.sigsac.org/ccs/CCS2019/
+  deadline: "2019-05-15"
+  note: 
+  abstract_deadline: "2019-05-08"
+  date: "2019-11-11"
+  place: TBD
+  acceptance_rate: 
+  num_submission: 
+  general_chair: 
+  program_chair: 
+
+- name: CCS
+  description: ACM Conference on Computer and Communications Security
+  year: 2018
+  link: https://www.sigsac.org/ccs/CCS2018/
+  deadline: "2018-05-15"
+  note: 
+  abstract_deadline: "2018-05-08"
+  date: "2018-11-12"
+  place: TBD
+  acceptance_rate: 
+  num_submission: 
+  general_chair: 
+  program_chair: 
+
+- name: CCS
+  description: ACM Conference on Computer and Communications Security
+  year: 2017
+  link: https://www.sigsac.org/ccs/CCS2017/
+  deadline: "2017-05-15"
+  note: 
+  abstract_deadline: "2017-05-08"
+  date: "2017-11-13"
+  place: TBD
+  acceptance_rate: 
+  num_submission: 
+  general_chair: 
+  program_chair: 
+
+- name: CCS
+  description: ACM Conference on Computer and Communications Security
+  year: 2016
+  link: https://www.sigsac.org/ccs/CCS2016/
+  deadline: "2016-05-15"
+  note: 
+  abstract_deadline: "2016-05-08"
+  date: "2016-10-24"
+  place: TBD
+  acceptance_rate: 
+  num_submission: 
+  general_chair: 
+  program_chair: 
 
 ## Databases
 
