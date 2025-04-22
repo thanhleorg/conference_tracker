@@ -81,7 +81,7 @@ function App() {
       // Select all conferences from both datasets initially
       const allConfs = [
         ...csrankingsData.allConferenceNames,
-        ...coreData.allConferenceNames,
+        // ...coreData.allConferenceNames,
       ];
       setSelectedConferences(new Set(allConfs));
 
