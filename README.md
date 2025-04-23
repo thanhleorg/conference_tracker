@@ -1,8 +1,9 @@
 
 # 📅 CS Conference Deadlines @ [roars.dev/csconfs](https://roars.dev/csconfs/)
 
+**CSConfs** is a simple and open-source website for tracking **Computer Science conference deadlines**, **notifications**, **locations**, and more! 🎯 csconfs uses conferences defined by [CSRankings](https://csrankings.org/) and [CORE](https://portal.core.edu.au/conf-ranks/). Enjoy tracking your CS conferences! 🎉 
 
-**CSConfs** is a simple and open-source website for tracking **Computer Science conference deadlines**, **notifications**, **locations**, and more! 🎯 csconfs uses conferences defined by CSRankings and CORE*.
+
 ---
 
 ## 🌐 Live Site
@@ -14,7 +15,7 @@ Visit here 👉 [https://roars.dev/csconfs/](https://roars.dev/csconfs/)
 ## 📂 Project Structure
 
 - **Open**: This project is open-source on [**GitHub**](https://git.roars.dev/csconfs).  
-- **Tech stuff**: This website is built using **React** and **Node.js**. It is a **static site** that fetches data from a **YAML** file and is hosetd through **Github Pages**.
+- **Tech stuff**: This website is built using **React** and **Node.js**. It is a **static site** that fetches data from a **YAML** file and is hosted through **Github Pages**.
 - **Data:** Main information is stored in **`public/data/conferences.yaml`**.
 
 ---
@@ -77,4 +78,4 @@ npm run deploy
 ---
 
 
-Enjoy tracking your CS conferences! 🎉
+Created with ❤️ by [Roars Lab](https://roars.dev)  
