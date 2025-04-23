@@ -4330,6 +4330,147 @@
   program_chair: Marco Caccamo  
 
 # High-performance computing	
+
+- name: HPDC
+  description: ACM International Symposium on High-Performance Parallel and Distributed Computing
+  year: 2024
+  link: https://hpdc.org/2024/
+  deadline: 
+  abstract_deadline: 
+  notification_date: 
+  date: "2024-06-03"
+  place: Pisa, Italy
+  acceptance_rate: 
+  num_submission: 
+  general_chair: 
+  program_chair: 
+
+- name: HPDC
+  description: ACM International Symposium on High-Performance Parallel and Distributed Computing
+  year: 2023
+  link: https://hpdc.org/2023/
+  deadline: 
+  abstract_deadline: 
+  notification_date: 
+  date: "2023-06-20"
+  place: Orlando, FL, USA
+  acceptance_rate: 
+  num_submission: 
+  general_chair: 
+  program_chair: 
+
+- name: HPDC
+  description: ACM International Symposium on High-Performance Parallel and Distributed Computing
+  year: 2022
+  link: https://hpdc.org/2022/
+  deadline: 
+  abstract_deadline: 
+  notification_date: 
+  date: "2022-06-27"
+  place: Minneapolis, MN, USA
+  acceptance_rate: 
+  num_submission: 
+  general_chair: 
+  program_chair: 
+
+- name: HPDC
+  description: ACM International Symposium on High-Performance Parallel and Distributed Computing
+  year: 2021
+  link: https://hpdc.org/2021/
+  deadline: 
+  abstract_deadline: 
+  notification_date: 
+  date: "2021-06-21"
+  place: Online
+  acceptance_rate: 
+  num_submission: 
+  general_chair: 
+  program_chair: 
+
+- name: HPDC
+  description: ACM International Symposium on High-Performance Parallel and Distributed Computing
+  year: 2020
+  link: https://hpdc.org/2020/
+  deadline: 
+  abstract_deadline: 
+  notification_date: 
+  date: "2020-06-23"
+  place: Stockholm, Sweden
+  acceptance_rate: 
+  num_submission: 
+  general_chair: 
+  program_chair: 
+
+- name: HPDC
+  description: ACM International Symposium on High-Performance Parallel and Distributed Computing
+  year: 2019
+  link: https://hpdc.org/2019/
+  deadline: 
+  abstract_deadline: 
+  notification_date: 
+  date: "2019-06-24"
+  place: Phoenix, AZ, USA
+  acceptance_rate: 
+  num_submission: 
+  general_chair: 
+  program_chair: 
+
+- name: HPDC
+  description: ACM International Symposium on High-Performance Parallel and Distributed Computing
+  year: 2018
+  link: https://hpdc.org/2018/
+  deadline: 
+  abstract_deadline: 
+  notification_date: 
+  date: "2018-06-11"
+  place: Tempe, AZ, USA
+  acceptance_rate: 
+  num_submission: 
+  general_chair: 
+  program_chair: 
+
+- name: HPDC
+  description: ACM International Symposium on High-Performance Parallel and Distributed Computing
+  year: 2017
+  link: https://hpdc.org/2017/
+  deadline: 
+  abstract_deadline: 
+  notification_date: 
+  date: "2017-06-26"
+  place: Washington, D.C., USA
+  acceptance_rate: 
+  num_submission: 
+  general_chair: 
+  program_chair: 
+
+- name: HPDC
+  description: ACM International Symposium on High-Performance Parallel and Distributed Computing
+  year: 2016
+  link: https://hpdc.org/2016/
+  deadline: 
+  abstract_deadline: 
+  notification_date: 
+  date: "2016-05-31"
+  place: Kyoto, Japan
+  acceptance_rate: 
+  num_submission: 
+  general_chair: 
+  program_chair: 
+
+- name: HPDC
+  description: ACM International Symposium on High-Performance Parallel and Distributed Computing
+  year: 2015
+  link: https://hpdc.org/2015/
+  deadline: 
+  abstract_deadline: 
+  notification_date: 
+  date: "2015-06-15"
+  place: Portland, OR, USA
+  acceptance_rate: 
+  num_submission: 
+  general_chair: 
+  program_chair: 
+  
 # Mobile computing	
 # Measurement & perf. analysis 	
 # Operating systems	
@@ -5620,7 +5761,7 @@
   num_submission: 
   general_chair: 
   program_chair:
-  
+
 - name: CGO
   description: IEEE/ACM International Symposium on Code Generation and Optimization
   year: 2025
