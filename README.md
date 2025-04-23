@@ -88,4 +88,4 @@ npm run deploy
 ---
 
 
-Created with ❤️ by [Roars Lab](https://roars.dev)  
+Created by [Roars Lab](https://roars.dev)  
