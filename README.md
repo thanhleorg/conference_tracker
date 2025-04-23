@@ -2,8 +2,7 @@
 # 📅 CS Conference Deadlines @ [roars.dev/csconfs](https://roars.dev/csconfs/)
 
 
-**CSConfs** is a simple and open-source website for tracking **Computer Science conference deadlines**, **notifications**, **locations**, and more! 🎯
-csconfs uses conferences defined by CSRankings and CORE*.
+**CSConfs** is a simple and open-source website for tracking **Computer Science conference deadlines**, **notifications**, **locations**, and more! 🎯 csconfs uses conferences defined by CSRankings and CORE*.
 ---
 
 ## 🌐 Live Site
@@ -14,8 +13,8 @@ Visit here 👉 [https://roars.dev/csconfs/](https://roars.dev/csconfs/)
 
 ## 📂 Project Structure
 
-- **Open**: This website is open-source and hosted on **GitHub Pages**.  
-- **Tech stuff**: This website is built using **React** and **Node.js**. It is a **static site** that fetches data from a **YAML** file.
+- **Open**: This project is open-source on [**GitHub**](https://git.roars.dev/csconfs).  
+- **Tech stuff**: This website is built using **React** and **Node.js**. It is a **static site** that fetches data from a **YAML** file and is hosetd through **Github Pages**.
 - **Data:** Main information is stored in **`public/data/conferences.yaml`**.
 
 ---
@@ -32,7 +31,7 @@ We welcome contributions! 🛠️
 - Make your changes in the `public/data/conferences.yaml` file.
 - **Test** your changes locally (see below).
 - **Commit** and **Push** your changes with a clear message.
-- Create a **pull request** to the original repository.
+- Create a **pull request** to the [original repository](https://git.roars.dev/csconfs).
 - If you have questions or comments, feel free to open a [Github issue](https://github.com/dynaroars/csconfs/issues).
 
 
