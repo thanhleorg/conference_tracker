@@ -74,6 +74,7 @@ function App() {
     setSelectedConferences(updatedSelected);
   };
 
+  // Load data
   useEffect(() => {
     const loadData = async () => {
       const { loadedConferences, csrankingsData, coreData } = await fetchFullData();
@@ -177,6 +178,7 @@ function App() {
   
     const newUrl = window.location.pathname + '?' + params.toString();
     window.history.replaceState(null, '', newUrl);
+    // eslint-disable-next-line
   }, [selectedConferences, allCsrConfNames, allCoreConfNames]);
 
 
@@ -208,6 +210,7 @@ function App() {
     setFilteredConferences(sortedConferences);
   };
 
+  // Select conferences
   useEffect(() => {
     filterConferences();
     // eslint-disable-next-line react-hooks/exhaustive-deps
