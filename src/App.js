@@ -240,6 +240,10 @@ function App() {
           </div>
         ) : (
           <>
+            <div className="conference-list">
+              <ConferenceDisplay filteredConferences={filteredConferences} />
+            </div>
+            
             <div className="sidebar">
               <h2>Filters</h2>
               <FormControlLabel
@@ -283,9 +287,7 @@ function App() {
                 toggleArea={toggleArea}
               />
             </div>
-           
 
-            <ConferenceDisplay filteredConferences={filteredConferences} />
           </>
         )}
       </div>

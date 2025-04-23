@@ -49,6 +49,7 @@ function ConferenceDisplay({ filteredConferences }) {
           ))}
         </div>
       )}
+
     </div>
   );
 }
