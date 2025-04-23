@@ -29,6 +29,11 @@ function App() {
 
   const [hidePastDeadlines, setHidePastDeadlines] = useState(true);
 
+
+  // Utility to get all CSRankings and CORE conference names (flatten)
+  const allCsrConfNames = Object.values(csrConfsByArea).flat();
+  const allCoreConfNames = Object.values(coreConfsByArea).flat();
+
   // Toggle parent accepts datasetId to uniquely key openParents state
   const toggleParent = (datasetId, parentArea) => {
     const key = `${datasetId}:${parentArea}`;
@@ -78,18 +83,6 @@ function App() {
       setCoreAreas(coreData.areasMap);
       setCoreConfsByArea(coreData.conferencesByArea);
 
-      // Select all conferences from both datasets initially
-      const allConfs = [
-        ...csrankingsData.allConferenceNames,
-        // ...coreData.allConferenceNames,
-      ];
-      setSelectedConferences(new Set(allConfs));
-      
-      // const initiallyCheckedConfs = allConfs.filter(
-      //   confName => csrankingsData.nextTierFlags[confName] === false
-      // );
-      // setSelectedConferences(new Set(initiallyCheckedConfs));
-      
       // Initialize all parents open
       const openParentsInit = {};
       Object.entries(csrankingsData.areasMap).forEach(([parentArea]) => {
@@ -99,12 +92,85 @@ function App() {
         openParentsInit[`core:${parentArea}`] = true;
       });
 
+      // Parse URL params
+      const params = new URLSearchParams(window.location.search);
+      const csrParam = params.get('csrankings');
+      const coreParam = params.get('core');
+      const selectedFromUrl = new Set();
+
+      if (csrParam === 'all') {
+        csrankingsData.allConferenceNames.forEach(c => selectedFromUrl.add(c));
+      } else if (csrParam) {
+        csrParam.split(',').forEach(c => selectedFromUrl.add(c));
+      }
+
+      if (coreParam === 'all') {
+        coreData.allConferenceNames.forEach(c => selectedFromUrl.add(c));
+      } else if (coreParam) {
+        coreParam.split(',').forEach(c => selectedFromUrl.add(c));
+      }
+      // If URL params present and at least one selected conf from URL, use them;
+      // Otherwise default to select all confs
+      if (selectedFromUrl.size > 0) {
+        setSelectedConferences(selectedFromUrl);
+      } else {
+        // No selection in URL → select all by default
+        const allConfs = [
+          ...csrankingsData.allConferenceNames,
+          // ...coreData.allConferenceNames,
+        ];
+        setSelectedConferences(new Set(allConfs));
+      }
+
       setOpenParents(openParentsInit);
       setConferences(loadedConferences);
       setLoading(false);
     };
     loadData();
   }, []);
+
+
+  // Update URL when selectedConferences changes
+  useEffect(() => {
+    if (conferences.length === 0) return;
+  
+    const params = new URLSearchParams();
+  
+    // Conferences that are in both datasets
+    const confsInBoth = allCsrConfNames.filter(c => allCoreConfNames.includes(c));
+  
+    // If CORE is 'all'
+    const allCoreSelected = allCoreConfNames.every(conf => selectedConferences.has(conf));
+    let csrConfsForUrl = allCsrConfNames.filter(conf => selectedConferences.has(conf));
+    const coreConfsForUrl = allCoreConfNames.filter(conf => selectedConferences.has(conf));
+  
+    if (allCoreSelected) {
+      // Exclude overlapping confs from CSR listing
+      csrConfsForUrl = csrConfsForUrl.filter(conf => !confsInBoth.includes(conf));
+      params.set('core', 'all');
+    }
+  
+    // Only set CSR param if there are any conferences left after exclusion
+    if (csrConfsForUrl.length === allCsrConfNames.length) {
+      // All CSR confs selected (except overlaps gone), so can set 'all'
+      params.set('csrankings', 'all');
+    } else if (csrConfsForUrl.length > 0) {
+      params.set('csrankings', csrConfsForUrl.join(','));
+    }
+  
+    // If CORE is not all, add explicit CORE confs besides those overlapping
+    if (!allCoreSelected) {
+      // Only those CORE conferences that are selected and not in CSR (or appearing in confsInBoth)
+      const coreExclusive = coreConfsForUrl.filter(c => !csrConfsForUrl.includes(c));
+      if (coreExclusive.length) {
+        params.set('core', coreExclusive.join(','));
+      }
+    }
+  
+    const newUrl = window.location.pathname + '?' + params.toString();
+    window.history.replaceState(null, '', newUrl);
+  }, [selectedConferences, allCsrConfNames, allCoreConfNames]);
+
 
   const filterConferences = () => {
     const selected = Array.from(selectedConferences);
