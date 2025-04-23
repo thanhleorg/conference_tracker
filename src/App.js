@@ -83,10 +83,12 @@ function App() {
         ...csrankingsData.allConferenceNames,
         // ...coreData.allConferenceNames,
       ];
+      setSelectedConferences(new Set(allConfs));
       
-      const initiallyCheckedConfs = allConfs.filter(
-        confName => csrankingsData.nextTierFlags[confName] === false
-      );
+      // const initiallyCheckedConfs = allConfs.filter(
+      //   confName => csrankingsData.nextTierFlags[confName] === false
+      // );
+      // setSelectedConferences(new Set(initiallyCheckedConfs));
       
       // Initialize all parents open
       const openParentsInit = {};
@@ -98,7 +100,6 @@ function App() {
       });
 
       setOpenParents(openParentsInit);
-      setSelectedConferences(new Set(initiallyCheckedConfs));
       setConferences(loadedConferences);
       setLoading(false);
     };
