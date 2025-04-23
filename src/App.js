@@ -87,12 +87,19 @@ function App() {
       const initiallyCheckedConfs = allConfs.filter(
         confName => csrankingsData.nextTierFlags[confName] === false
       );
+      
+      // Initialize all parents open
+      const openParentsInit = {};
+      Object.entries(csrankingsData.areasMap).forEach(([parentArea]) => {
+        openParentsInit[`csrankings:${parentArea}`] = true;
+      });
+      Object.entries(coreData.areasMap).forEach(([parentArea]) => {
+        openParentsInit[`core:${parentArea}`] = true;
+      });
 
+      setOpenParents(openParentsInit);
       setSelectedConferences(new Set(initiallyCheckedConfs));
-
-      // Also set loaded YAML conferences for filtering
       setConferences(loadedConferences);
-
       setLoading(false);
     };
     loadData();
