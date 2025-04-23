@@ -29,6 +29,11 @@ function App() {
 
   const [hidePastDeadlines, setHidePastDeadlines] = useState(true);
 
+
+  // Utility to get all CSRankings and CORE conference names (flatten)
+  const allCsrConfNames = Object.values(csrConfsByArea).flat();
+  const allCoreConfNames = Object.values(coreConfsByArea).flat();
+
   // Toggle parent accepts datasetId to uniquely key openParents state
   const toggleParent = (datasetId, parentArea) => {
     const key = `${datasetId}:${parentArea}`;
@@ -78,16 +83,6 @@ function App() {
       setCoreAreas(coreData.areasMap);
       setCoreConfsByArea(coreData.conferencesByArea);
 
-      // Select all conferences from both datasets initially
-      const allConfs = [
-        ...csrankingsData.allConferenceNames,
-        // ...coreData.allConferenceNames,
-      ];
-      
-      const initiallyCheckedConfs = allConfs.filter(
-        confName => csrankingsData.nextTierFlags[confName] === false
-      );
-      
       // Initialize all parents open
       const openParentsInit = {};
       Object.entries(csrankingsData.areasMap).forEach(([parentArea]) => {
@@ -97,13 +92,93 @@ function App() {
         openParentsInit[`core:${parentArea}`] = true;
       });
 
+      // Parse URL params
+      const params = new URLSearchParams(window.location.search);
+      const csrParam = params.get('csrankings');
+      const coreParam = params.get('core');
+      const selectedFromUrl = new Set();
+
+      if (csrParam === 'all') {
+        csrankingsData.allConferenceNames.forEach(c => selectedFromUrl.add(c));
+      } else if (csrParam) {
+        csrParam.split(',').forEach(c => selectedFromUrl.add(c));
+      }
+
+      if (coreParam === 'all') {
+        coreData.allConferenceNames.forEach(c => selectedFromUrl.add(c));
+      } else if (coreParam) {
+        coreParam.split(',').forEach(c => selectedFromUrl.add(c));
+      }
+      // If URL params present and at least one selected conf from URL, use them;
+      // Otherwise default to select all confs
+      if (selectedFromUrl.size > 0) {
+        setSelectedConferences(selectedFromUrl);
+      } else {
+        // No selection in URL → select all by default
+        const allConfs = [
+          ...csrankingsData.allConferenceNames,
+          // ...coreData.allConferenceNames,
+        ];
+        setSelectedConferences(new Set(allConfs));
+      }
+
       setOpenParents(openParentsInit);
-      setSelectedConferences(new Set(initiallyCheckedConfs));
       setConferences(loadedConferences);
       setLoading(false);
     };
     loadData();
   }, []);
+
+
+  // Update URL when selectedConferences changes
+  useEffect(() => {
+    if (conferences.length === 0) return;
+  
+    const params = new URLSearchParams();
+  
+    // Conferences overlapping in both datasets
+    const confsInBoth = allCsrConfNames.filter(conf => allCoreConfNames.includes(conf));
+  
+    // Identify selected conferences for CSR and CORE
+    const selectedCsr = allCsrConfNames.filter(conf => selectedConferences.has(conf));
+    const selectedCore = allCoreConfNames.filter(conf => selectedConferences.has(conf));
+  
+    // Determine if all CSR and/or CORE conferences are selected
+    const allCsrSelected = selectedCsr.length === allCsrConfNames.length;
+    const allCoreSelected = selectedCore.length === allCoreConfNames.length;
+  
+    // Compose CSR param excluding any conferences also in CORE if CORE fully selected
+    let csrParamList = selectedCsr;
+    if (allCoreSelected) {
+      // remove overlapping conferences from CSR
+      csrParamList = csrParamList.filter(conf => !confsInBoth.includes(conf));
+    }
+  
+    // Compose CORE param excluding any conferences also in CSR if CSR fully selected
+    let coreParamList = selectedCore;
+    if (allCsrSelected) {
+      // remove overlapping conferences from CORE
+      coreParamList = coreParamList.filter(conf => !confsInBoth.includes(conf));
+    }
+  
+    // Set csrankings param
+    if (csrParamList.length === allCsrConfNames.length - (allCoreSelected ? confsInBoth.length : 0)) {
+      params.set('csrankings', 'all');
+    } else if (csrParamList.length > 0) {
+      params.set('csrankings', csrParamList.join(','));
+    }
+  
+    // Set core param
+    if (coreParamList.length === allCoreConfNames.length - (allCsrSelected ? confsInBoth.length : 0)) {
+      params.set('core', 'all');
+    } else if (coreParamList.length > 0) {
+      params.set('core', coreParamList.join(','));
+    }
+  
+    const newUrl = window.location.pathname + '?' + params.toString();
+    window.history.replaceState(null, '', newUrl);
+  }, [selectedConferences, allCsrConfNames, allCoreConfNames]);
+
 
   const filterConferences = () => {
     const selected = Array.from(selectedConferences);

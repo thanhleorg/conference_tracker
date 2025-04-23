@@ -53,7 +53,7 @@ export default function Sidebar(props) {
                 onChange={(e) => toggleMultipleConferences(allDatasetConfs, e.target.checked)}
                 color="primary"
                 size="small"
-                style={{ padding: 0, marginRight: 4 }}
+                style={{ padding: 0, marginRight: 0 }}
                 inputProps={{ 'aria-label': `Select all conferences under ${title}` }}
               />
               <IconButton
@@ -82,7 +82,7 @@ export default function Sidebar(props) {
             </div>
 
             <Collapse in={openTopLevel[datasetId]} timeout="auto" unmountOnExit>
-              <ul style={{ listStyle: 'none', paddingLeft: 24, margin: 0 }}>
+              <ul style={{ listStyle: 'none', paddingLeft: 18, margin: 0 }}>
                 {Object.entries(areas).map(([parentArea, areaDetails], parentIndex) => {
                   const parentConfs = getConferencesByParentArea(datasetId, parentArea);
                   const parentColor = parentAreaColors[parentIndex % parentAreaColors.length];
@@ -98,7 +98,7 @@ export default function Sidebar(props) {
                           onChange={e => toggleMultipleConferences(parentConfs, e.target.checked)}
                           color="primary"
                           size="small"
-                          style={{ padding: 0, marginRight: 4 }}
+                          style={{ padding: 0, marginRight: 0 }}
                           inputProps={{ 'aria-label': `Select all conferences under parent area ${parentArea}` }}
                         />
                         <div
@@ -128,7 +128,7 @@ export default function Sidebar(props) {
                       <Collapse in={parentOpen} timeout="auto" unmountOnExit>
                         <ul
                           id={`${datasetId}-${parentArea}-areas`}
-                          style={{ listStyle: 'none', paddingLeft: 24, margin: 0 }}
+                          style={{ listStyle: 'none', paddingLeft: 18, margin: 0 }}
                         >
                           {areaDetails.map(({ area_title }) => {
                             const areaConfs = getConferencesByAreaTitle(datasetId, area_title);
@@ -174,7 +174,7 @@ export default function Sidebar(props) {
                                 <Collapse in={areaOpen} timeout="auto" unmountOnExit>
                                   <ul
                                     id={`${datasetId}-${area_title}-confs`}
-                                    style={{ listStyle: 'none', paddingLeft: 24, margin: 0 }}
+                                    style={{ listStyle: 'none', paddingLeft: 18, margin: 0 }}
                                   >
                                     {conferencesByArea[area_title]?.map(conferenceName => (
                                       <li key={conferenceName} style={{ color: parentColor }}>

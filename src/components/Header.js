@@ -6,7 +6,9 @@ import logo from '../assets/t-rex-2.gif';
 export default function Header() {
   return (
     <header style={{ display: 'flex', alignItems: 'center', padding: '10px' }}>
-      <img src={logo} alt="dino" style={{ height: '100px', marginRight: '10px' }} />
+      <a href="https://roars.dev" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block' }}>
+        <img src={logo} alt="dino" style={{ height: '100px', marginRight: '10px' }} />
+      </a>
       <div>
         <div>
           <Typography
