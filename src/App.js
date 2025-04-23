@@ -136,35 +136,43 @@ function App() {
   
     const params = new URLSearchParams();
   
-    // Conferences that are in both datasets
-    const confsInBoth = allCsrConfNames.filter(c => allCoreConfNames.includes(c));
+    // Conferences overlapping in both datasets
+    const confsInBoth = allCsrConfNames.filter(conf => allCoreConfNames.includes(conf));
   
-    // If CORE is 'all'
-    const allCoreSelected = allCoreConfNames.every(conf => selectedConferences.has(conf));
-    let csrConfsForUrl = allCsrConfNames.filter(conf => selectedConferences.has(conf));
-    const coreConfsForUrl = allCoreConfNames.filter(conf => selectedConferences.has(conf));
+    // Identify selected conferences for CSR and CORE
+    const selectedCsr = allCsrConfNames.filter(conf => selectedConferences.has(conf));
+    const selectedCore = allCoreConfNames.filter(conf => selectedConferences.has(conf));
   
+    // Determine if all CSR and/or CORE conferences are selected
+    const allCsrSelected = selectedCsr.length === allCsrConfNames.length;
+    const allCoreSelected = selectedCore.length === allCoreConfNames.length;
+  
+    // Compose CSR param excluding any conferences also in CORE if CORE fully selected
+    let csrParamList = selectedCsr;
     if (allCoreSelected) {
-      // Exclude overlapping confs from CSR listing
-      csrConfsForUrl = csrConfsForUrl.filter(conf => !confsInBoth.includes(conf));
-      params.set('core', 'all');
+      // remove overlapping conferences from CSR
+      csrParamList = csrParamList.filter(conf => !confsInBoth.includes(conf));
     }
   
-    // Only set CSR param if there are any conferences left after exclusion
-    if (csrConfsForUrl.length === allCsrConfNames.length) {
-      // All CSR confs selected (except overlaps gone), so can set 'all'
+    // Compose CORE param excluding any conferences also in CSR if CSR fully selected
+    let coreParamList = selectedCore;
+    if (allCsrSelected) {
+      // remove overlapping conferences from CORE
+      coreParamList = coreParamList.filter(conf => !confsInBoth.includes(conf));
+    }
+  
+    // Set csrankings param
+    if (csrParamList.length === allCsrConfNames.length - (allCoreSelected ? confsInBoth.length : 0)) {
       params.set('csrankings', 'all');
-    } else if (csrConfsForUrl.length > 0) {
-      params.set('csrankings', csrConfsForUrl.join(','));
+    } else if (csrParamList.length > 0) {
+      params.set('csrankings', csrParamList.join(','));
     }
   
-    // If CORE is not all, add explicit CORE confs besides those overlapping
-    if (!allCoreSelected) {
-      // Only those CORE conferences that are selected and not in CSR (or appearing in confsInBoth)
-      const coreExclusive = coreConfsForUrl.filter(c => !csrConfsForUrl.includes(c));
-      if (coreExclusive.length) {
-        params.set('core', coreExclusive.join(','));
-      }
+    // Set core param
+    if (coreParamList.length === allCoreConfNames.length - (allCsrSelected ? confsInBoth.length : 0)) {
+      params.set('core', 'all');
+    } else if (coreParamList.length > 0) {
+      params.set('core', coreParamList.join(','));
     }
   
     const newUrl = window.location.pathname + '?' + params.toString();
