@@ -12,7 +12,7 @@
   order: 2;        /* Sidebar below cards by default */
   width: 100%;
   max-width: 100%;
-  margin-top: 20px;
+  margin-top: 0px;
 }
 
 .conference-list {
@@ -50,11 +50,11 @@
   }
   .sidebar {
     order: 1;   /* Sidebar first on wide screens */
-    flex: 0 0 300px;
-    max-width: 300px;
+    flex: 0 0 400px;
+    max-width: 400px;
     margin-top: 0;
     margin-right: 20px; /* gap between sidebar and cards */
-    width: 300px;
+    width: 400px;
   }
   .conference-list {
     order: 2;   /* Cards second on wide screens */
