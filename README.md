@@ -16,7 +16,7 @@ Visit here 👉 [https://roars.dev/csconfs/](https://roars.dev/csconfs/)
 
 - **Open**: This project is open-source on [**GitHub**](https://git.roars.dev/csconfs).  
 - **Tech stuff**: This website is built using **React** and **Node.js**. It is a **static site** that fetches data from a **YAML** file and is hosted through **Github Pages**.
-- **Data:** Main information is stored in **`public/data/conferences.yaml`**.
+- **Data:** Main database is stored in **`public/data/conferences.yaml`**.
 
 ---
 
@@ -27,13 +27,13 @@ We welcome contributions! 🛠️
 ### How to contribute:
 > You can help **check**, **add**, or **fix** conference data in **`public/data/conferences.yaml`**.  Use the existing entries as examples to maintain formatting and consistency.
 
-- **Fork** the repository.
-- **Clone** your forked repository to your local machine.
-- Make your changes in the `public/data/conferences.yaml` file.
-- **Test** your changes locally (see below).
-- **Commit** and **Push** your changes with a clear message.
-- Create a **pull request** to the [original repository](https://git.roars.dev/csconfs).
-- If you have questions or comments, feel free to open a [Github issue](https://github.com/dynaroars/csconfs/issues).
+1. **Fork** the repository.
+1. **Clone** your forked repository to your local machine.
+1. Make your changes in the `public/data/conferences.yaml` file.
+1. **Test** your changes locally (see below).
+1. **Commit** and **Push** your changes with a clear message.
+1. Create a **pull request** to the [original repository](https://git.roars.dev/csconfs).
+1. If you have questions or comments, feel free to open a [Github issue](https://github.com/dynaroars/csconfs/issues).
 
 
 ---
@@ -59,9 +59,19 @@ npm run start
 
 3. **View in browser**:
 
-```
+```bash
 http://localhost:3000/
 ```
+
+- If there are any errors, check and fix your edits in the `public/data/conferences.yaml` file.
+
+4. **Stop the server**:
+
+```bash
+# Press Ctrl + C in the terminal
+```
+
+
 
 ---
 
@@ -69,11 +79,11 @@ http://localhost:3000/
 > Deploy to `roars.dev/csconfs` (only for maintainers):
 
 ```bash
+# In the project root, e.g., ~/git/csconfs/ and in the `main``
 npm run deploy
 ```
 
-- The script handles deployment to the `gh-pages` branch.
-- Stay on the `main` branch—no manual branch switching needed!
+  - The script handles deployment to the `gh-pages` branch. It will automatically build the project and push the changes to the `gh-pages` branch. So you don't need to push to the `gh-pages` branch manually.
 
 ---
 
