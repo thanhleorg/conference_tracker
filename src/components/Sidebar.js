@@ -45,7 +45,7 @@ export default function Sidebar(props) {
         const someSelected = isSomeSelected(allDatasetConfs);
 
         return (
-          <li key={datasetId} style={{ marginBottom: 24 }}>
+          <li key={datasetId} style={{ marginBottom: 0 }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <Checkbox
                 indeterminate={someSelected}
@@ -90,7 +90,7 @@ export default function Sidebar(props) {
                   const parentOpen = !!openParents[parentKey];
 
                   return (
-                    <li key={parentArea} style={{ marginBottom: 8, color: parentColor }}>
+                    <li key={parentArea} style={{ marginBottom: 0, color: parentColor }}>
                       <div style={{ display: 'flex', alignItems: 'center' }}>
                         <Checkbox
                           indeterminate={isSomeSelected(parentConfs)}
@@ -136,7 +136,7 @@ export default function Sidebar(props) {
                             const areaOpen = !!openAreas[areaKey];
 
                             return (
-                              <li key={area_title} style={{ marginBottom: 4, color: parentColor }}>
+                              <li key={area_title} style={{ marginBottom: 0, color: parentColor }}>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                   <Checkbox
                                     indeterminate={isSomeSelected(areaConfs)}
