@@ -27,7 +27,8 @@ const calculateCountdown = (deadline) => {
 
   if ([days, hours, minutes, seconds].some(isNaN)) return '';
 
-  return `${days}d, ${hours}h, ${minutes}m, ${seconds}s`;
+  // return `${days}d, ${hours}h, ${minutes}m, ${seconds}s`;
+  return `${String(days).padStart(2, '0')}d, ${String(hours).padStart(2, '0')}h, ${String(minutes).padStart(2, '0')}m, ${String(seconds).padStart(2, '0')}s`;
 };
 
 const ConferenceCard = ({ conference }) => {
