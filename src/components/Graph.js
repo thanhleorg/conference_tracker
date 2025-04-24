@@ -143,7 +143,7 @@ export default function Graph({ conferences }) {
         <YAxis
           type="category"
           dataKey="name"
-          width={150} // increased left width for long labels
+          width={120} // increased left width for long labels
           interval={0}
           axisLine={false}
           tickLine={false}

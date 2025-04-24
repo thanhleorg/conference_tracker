@@ -34,7 +34,7 @@ function ConferenceDisplay({ filteredConferences }) {
 
       {/* Conditionally render based on view */}
       {viewMode === 'graph' && (
-        <div style={{ width: '90%', marginBottom: 16 }}>
+        <div style={{ width: '100%', marginBottom: 16 }}>
           <Graph conferences={filteredConferences} />
         </div>
       )}
