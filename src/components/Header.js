@@ -42,9 +42,10 @@ export default function Header() {
             component="div"
             sx={{ marginTop: 1, color: 'text.secondary', userSelect: 'text' }}
           >
-            <Link href="https://git.roars.dev/csconfs" target="_blank" rel="noopener" underline="hover">
+            <Link href="https://cs.gmu.edu" target="_blank" rel="noopener" underline="hover">Computer Science</Link> @ George Mason University.<br />
+            See something missing or inaccurate? Create a Github issue or a pull request at <Link href="https://git.roars.dev/csconfs" target="_blank" rel="noopener" underline="hover">
               git.roars.dev/csconfs
-            </Link>
+            </Link>. 
           </Typography>
         </div>
       </div>
