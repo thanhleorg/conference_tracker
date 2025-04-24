@@ -191,8 +191,9 @@ function App() {
       const matchesSearch = conf.name.toLowerCase().includes(searchQuery.toLowerCase());
   
       const deadlineDate = new Date(conf.deadline);
+      const conferenceDate = new Date(conf.date);
       // Filter out past deadline conferences if hidePastDeadlines is true
-      const isUpcoming = !hidePastDeadlines || deadlineDate >= now;
+      const isUpcoming = !hidePastDeadlines || deadlineDate >= now || conferenceDate >= now;
   
       return matchesConference && matchesSearch && isUpcoming;
     });
@@ -254,7 +255,7 @@ function App() {
                     color="primary"
                   />
                 }
-                label="Hide past deadline conferences"
+                label="Hide past conferences"
               />
               <TextField
                 label="Search by conference name"
