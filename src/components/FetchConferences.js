@@ -24,10 +24,12 @@ async function parseCSV(url) {
           if (!areasMap[parentArea]) {
             areasMap[parentArea] = [];
           }
-          if (!areasMap[parentArea].some(area => area.area_title === areaTitle)) {
+          if (!areasMap[parentArea].some(area => area.area_title === areaTitle && area.year === row.year && area.note === row.note)) {
             areasMap[parentArea].push({
               area: row.Area,
               area_title: areaTitle,
+              year: row.year,
+              note: row.note,
             });
           }
 
