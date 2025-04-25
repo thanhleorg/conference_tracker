@@ -7,6 +7,7 @@ import ConferenceDisplay from './components/ConferenceDisplay';
 import { fetchFullData } from './components/FetchConferences';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import './App.css';
 
 function App() {
@@ -292,6 +293,7 @@ function App() {
           </>
         )}
       </div>
+      <Footer />
     </div>
   );
 }
