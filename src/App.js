@@ -95,9 +95,24 @@ function App() {
       });
 
       // Parse URL params
-      const params = new URLSearchParams(window.location.search);
-      const csrParam = params.get('csrankings');
-      const coreParam = params.get('core');
+      const parseParams = () => {
+        // key as ranking criteria and value as list of conferences
+        let res = {};
+
+        let paramList = window.location.search.substring(1).split("&");
+
+        // Map the paramList into an object with key as ranking criteria and value as list of conferences
+        for (let param of paramList) {
+          let tempSplit = param.split("=");
+          const key = tempSplit[0], value = tempSplit[1];
+          res[key] = value;
+        }
+        return res;
+      }
+
+      const params = parseParams();
+      const csrParam = params['csrankings'];
+      const coreParam = params['core'];
       const selectedFromUrl = new Set();
 
       if (csrParam === 'all') {
@@ -135,9 +150,7 @@ function App() {
   // Update URL when selectedConferences changes
   useEffect(() => {
     if (conferences.length === 0) return;
-  
-    const params = new URLSearchParams();
-  
+    
     // Conferences overlapping in both datasets
     const confsInBoth = allCsrConfNames.filter(conf => allCoreConfNames.includes(conf));
   
@@ -163,21 +176,21 @@ function App() {
       coreParamList = coreParamList.filter(conf => !confsInBoth.includes(conf));
     }
   
+    let paramUrl = '';
     // Set csrankings param
     if (csrParamList.length === allCsrConfNames.length - (allCoreSelected ? confsInBoth.length : 0)) {
-      params.set('csrankings', 'all');
+      paramUrl += 'csrankings=all';
     } else if (csrParamList.length > 0) {
-      params.set('csrankings', csrParamList.join(','));
+      paramUrl += `csrankings=${csrParamList.join(',')}`;
     }
   
     // Set core param
     if (coreParamList.length === allCoreConfNames.length - (allCsrSelected ? confsInBoth.length : 0)) {
-      params.set('core', 'all');
+      paramUrl += '&core=all';
     } else if (coreParamList.length > 0) {
-      params.set('core', coreParamList.join(','));
+      paramUrl += `&core=${coreParamList.join(',')}`;
     }
-  
-    const newUrl = window.location.pathname + '?' + params.toString();
+    const newUrl = window.location.pathname + '?' + paramUrl;
     window.history.replaceState(null, '', newUrl);
     // eslint-disable-next-line
   }, [selectedConferences, allCsrConfNames, allCoreConfNames]);
