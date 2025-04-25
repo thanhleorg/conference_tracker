@@ -26,22 +26,32 @@
 
 /* Conference card styling */
 .conference-card {
-  border: 1px solid #ccc;
-  padding: 15px;
+  /* border: 1px solid #ccc; */
+
+  --font-size-title: clamp(0.7rem, 2vw, 1.5rem);
+  --font-size-body: clamp(0.6rem, 1.5vw, 1rem);
+  --font-size-note: clamp(0.4rem, 1.2vw, 0.9rem);
+
   border-radius: 5px;
-  margin-bottom: 10px;
-  background-color: #f9f9f9;
   word-break: break-word;
 }
 .conference-card h3 {
   margin-top: 0;
-  font-size: 1.5rem;
+  font-size: var(--font-size-title);
 }
 .conference-card span {
   font-weight: bold;
-  color: #d9534f;
+  font-size: var(--font-size-body);
 }
 
+.conference-card .body-text {
+  font-size: var(--font-size-note);
+}
+
+.conference-card h5 {
+  margin-top: 0;
+  font-size: var(--font-size-title);
+}
 /* Large screens: row layout and sidebar on left */
 @media (min-width: 768px) {
   .App {
@@ -63,3 +73,4 @@
     min-width: 0;
   }
 }
+

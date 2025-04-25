@@ -28,7 +28,7 @@ export default function Header() {
               userSelect: 'none',
               fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
               '@media (max-width:600px)': {
-                fontSize: '1.8rem',
+                fontSize: '1.0rem',
                 letterSpacing: 1,
               },
             }}
@@ -40,7 +40,14 @@ export default function Header() {
           <Typography
             variant="body2"
             component="div"
-            sx={{ marginTop: 1, color: 'text.secondary', userSelect: 'text' }}
+            sx={{ 
+              marginTop: 1, 
+              color: 'text.secondary', 
+              userSelect: 'text',
+              '@media (max-width:600px)': {
+                fontSize: '0.6rem',
+              },
+            }}
           >
             <Link href="https://cs.gmu.edu" target="_blank" rel="noopener" underline="hover">Computer Science</Link> @ George Mason University.<br />
             See something missing or inaccurate? Create a Github issue or a pull request at <Link href="https://git.roars.dev/csconfs" target="_blank" rel="noopener" underline="hover">

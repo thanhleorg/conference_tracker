@@ -28,7 +28,7 @@ const calculateCountdown = (deadline) => {
   if ([days, hours, minutes, seconds].some(isNaN)) return '';
 
   // return `${days}d, ${hours}h, ${minutes}m, ${seconds}s`;
-  return `${String(days).padStart(2, '0')}d, ${String(hours).padStart(2, '0')}h, ${String(minutes).padStart(2, '0')}m, ${String(seconds).padStart(2, '0')}s`;
+  return `${String(days).padStart(2, '0')}d ${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`;
 };
 
 const ConferenceCard = ({ conference }) => {
@@ -58,8 +58,9 @@ const ConferenceCard = ({ conference }) => {
       variant="outlined"
       sx={{
         borderRadius: '5px',
+        
         padding: 1,
-        marginBottom: 2,
+        marginBottom: 2, 
         boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
         display: 'flex',
         justifyContent: 'space-between',
@@ -68,13 +69,13 @@ const ConferenceCard = ({ conference }) => {
       }}
     >
       {/* Left column: name, description, area */}
-      <CardContent sx={{ flexBasis: '50%', padding: 0 }}>
+      <CardContent sx={{ flexBasis: '50%', padding: 0, }}>
         <Typography variant="h5" fontWeight="bold" gutterBottom>
           <StyledLink href={conference.link} target="_blank" rel="noopener noreferrer">
             {conference.name} {conference.year}
           </StyledLink>
         </Typography>
-        <Typography variant="body2" sx={{ marginBottom: 0., color: 'text.secondary' }}>
+        <Typography variant="body2" sx={{ marginBottom: 0., color: 'text.secondary', fontSize: 'var(--font-size-body)' }}>
           {conference.description}
         </Typography>
         
@@ -86,26 +87,35 @@ const ConferenceCard = ({ conference }) => {
       {/* Center column: date range and location */}
       <CardContent
         sx={{
-          flexBasis: '20%',
-          padding: 0,
+          flexBasis: '25%',
           textAlign: 'right',
           color: 'text.black',
           fontWeight: 'medium',
+          fontSize: 'var(--font-size-body)',
+          padding: 0,
         }}
       >
-        <Typography>{dateRangeDisplay}</Typography>
+        <Typography sx={{ fontSize: 'var(--font-size-body)' }}>
+          {dateRangeDisplay}
+        </Typography>
         {conference.place}
       </CardContent>
 
       {/* Right column: countdown and deadline */}
-      <CardContent sx={{ flexBasis: '30%', padding: 0, textAlign: 'right' }}>
-        <Typography variant="h5" fontWeight="bold" color="error.main" sx={{ marginTop: 2. }}>
+      <CardContent 
+        sx={{ 
+          flexBasis: '35%', 
+          textAlign: 'right',
+          paddingRight: 0,
+        }}
+      >
+        <Typography variant="h5" fontWeight="bold" color="error.main" sx={{ fontSize: 'var(--font-size-title)' }}>
           {countdown || 'TBD'}
         </Typography>
-        <Typography fontWeight="bold" sx={{ marginTop: 0. }}>
+        <Typography fontWeight="bold" sx={{ fontSize: 'var(--font-size-body)' }}>
           Deadline: {deadlineDisplay}
         </Typography>
-        <Typography sx={{ marginTop: 0. }}>
+        <Typography sx={{ fontSize: 'var(--font-size-body)' }}>
           Notification: {notificationDateDisplay}
         </Typography>
       </CardContent>
