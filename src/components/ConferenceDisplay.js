@@ -40,7 +40,7 @@ function ConferenceDisplay({ filteredConferences }) {
       )}
 
       {viewMode === 'list' && (
-        <div class='conference-card' style={{ width: '100%' }}>
+        <div className='conference-card' style={{ width: '100%' }}>
           {filteredConferences.map(conf => (
             <ConferenceCard
               key={`${conf.name}-${conf.year}`}
