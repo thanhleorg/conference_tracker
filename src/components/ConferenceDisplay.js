@@ -43,7 +43,7 @@ function ConferenceDisplay({ filteredConferences }) {
         <div className='conference-card' style={{ width: '100%' }}>
           {filteredConferences.map(conf => (
             <ConferenceCard
-              key={`${conf.name}-${conf.year}`}
+              key={`${conf.name}-${conf.year}-${conf.note}`}
               conference={conf}
             />
           ))}
