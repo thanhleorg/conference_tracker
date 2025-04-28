@@ -53,6 +53,10 @@ const ConferenceCard = ({ conference }) => {
   ? new Date(conference.notification_date).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })
   : 'TBD'; // example fallback text from screenshot
 
+  const acceptance_rate = conference.acceptance_rate 
+  ? (Math.round(conference.acceptance_rate * 10000) / 100).toFixed(2) + '%'
+  : 'N/A';
+
   return (
     <Card
       variant="outlined"
@@ -117,6 +121,9 @@ const ConferenceCard = ({ conference }) => {
         </Typography>
         <Typography sx={{ fontSize: 'var(--font-size-body)' }}>
           Notification: {notificationDateDisplay}
+        </Typography>
+        <Typography sx={{ fontSize: 'var(--font-size-body)' }}>
+          Acceptance rate: {acceptance_rate}
         </Typography>
       </CardContent>
     </Card>
