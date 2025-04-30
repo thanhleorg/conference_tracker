@@ -73,7 +73,7 @@ async function parseAcceptanceRateFile(url) {
 
   // Read the file and count the total submission and acceptance for each conference
   for (let conf of conferences) {
-    const conferenceName = conf.Conference;
+    const conferenceName = `${conf.Conference}-${conf.Year}`;
     const acceptance = Number(conf.Accepted);
     const submission = Number(conf.Submitted);
     if (!(conferenceName in conferenceStat)) {
@@ -106,7 +106,7 @@ export async function fetchFullData() {
     const conferenceStat = await parseAcceptanceRateFile('https://raw.githubusercontent.com/emeryberger/csconferences/refs/heads/main/csconferences.csv') || {};
 
     loadedConferences.forEach(conf => {
-      let conferenceName = conf.name;
+      let conferenceName = `${conf.name}-${conf.year}`;
       if (conferenceName in conferenceStat) {
         conf.acceptance_rate = conferenceStat[conferenceName].acceptanceRate;
       }
