@@ -86,6 +86,14 @@ const ConferenceCard = ({ conference }) => {
         <Typography variant="subtitle2" sx={{ fontWeight: 'bold', fontStyle: 'italic', color: 'error.main', fontSize: 'var(--font-size-body)' }}>
           {conference.note}
         </Typography>
+
+
+        {acceptance_rate !== 'N/A' && (
+          <Typography variant="subtitle2" sx={{ fontWeight: 'bold', fontStyle: 'italic', fontSize: 'var(--font-size-body)' }}>
+            Acceptance rate: {acceptance_rate}
+          </Typography>
+        )}
+
       </CardContent>
 
       {/* Center column: date range and location */}
@@ -121,9 +129,6 @@ const ConferenceCard = ({ conference }) => {
         </Typography>
         <Typography sx={{ fontSize: 'var(--font-size-body)' }}>
           Notification: {notificationDateDisplay}
-        </Typography>
-        <Typography sx={{ fontSize: 'var(--font-size-body)' }}>
-          Acceptance rate: {acceptance_rate}
         </Typography>
       </CardContent>
     </Card>
