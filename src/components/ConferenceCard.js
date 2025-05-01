@@ -15,9 +15,18 @@ const StyledLink = styled(Link)({
 
 const calculateCountdown = (deadline) => {
   if (!deadline) return '';
-  const now = new Date();
+
+  // Create a Date object from the deadline in local time
   const deadlineDate = new Date(deadline);
-  const diff = deadlineDate - now;
+  
+  // Adjust to the end of the day in local time
+  deadlineDate.setHours(23, 59, 59, 999); // Set to end of the day in local time
+
+  // Convert to UTC
+  const utcDeadlineDate = new Date(deadlineDate.getTime() + (deadlineDate.getTimezoneOffset() * 60000));
+
+  const now = new Date();
+  const diff = utcDeadlineDate - now;
   if (diff <= 0) return 'Deadline passed';
 
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -31,6 +40,22 @@ const calculateCountdown = (deadline) => {
   return `${String(days).padStart(2, '0')}d ${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`;
 };
 
+// Function to format dates considering AoE
+const formatDateAoE = (date) => {
+  if (!date) return 'TBD';
+
+  // Create a Date object
+  const dateObject = new Date(date);
+  const utcDeadlineDate = new Date(dateObject.getTime() + (dateObject.getTimezoneOffset() * 60000));
+  
+  // Set it to the next day at 7 AM UTC
+  utcDeadlineDate.setUTCDate(utcDeadlineDate.getUTCDate());
+  utcDeadlineDate.setUTCHours(7, 0, 0, 0);
+
+  return utcDeadlineDate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+};
+
+
 const ConferenceCard = ({ conference }) => {
   const [countdown, setCountdown] = useState(calculateCountdown(conference.deadline));
 
@@ -42,20 +67,21 @@ const ConferenceCard = ({ conference }) => {
   });
 
   // Format date range or fallback
-  const dateRangeDisplay = conference.date 
-    ? new Date(conference.date).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })
+  const dateRangeDisplay = conference.date
+    ? formatDateAoE(conference.date)
     : 'TBD';
+
   const deadlineDisplay = conference.deadline
-    ? new Date(conference.deadline).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })
-    : 'TBD'; // example fallback text from screenshot
+    ? formatDateAoE(conference.deadline)
+    : 'TBD';
 
   const notificationDateDisplay = conference.notification_date
-  ? new Date(conference.notification_date).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })
-  : 'TBD'; // example fallback text from screenshot
+    ? formatDateAoE(conference.notification_date)
+    : 'TBD';
 
-  const acceptance_rate = conference.acceptance_rate 
-  ? (Math.round(conference.acceptance_rate * 10000) / 100).toFixed(2) + '%'
-  : 'N/A';
+  const acceptance_rate = conference.acceptance_rate
+    ? (Math.round(conference.acceptance_rate * 10000) / 100).toFixed(2) + '%'
+    : 'N/A';
 
   return (
     <Card
