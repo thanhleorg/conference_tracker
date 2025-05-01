@@ -16,14 +16,18 @@ const StyledLink = styled(Link)({
 const calculateCountdown = (deadline) => {
   if (!deadline) return '';
 
-  // Create a Date object from the deadline in local time
+  // Create a Date object from the provided deadline
   const deadlineDate = new Date(deadline);
-  
-  // Adjust to the end of the day in local time
-  deadlineDate.setHours(23, 59, 59, 999); // Set to end of the day in local time
 
-  // Convert to UTC
+  // Set it to the end of the day (23:59:59)
+  deadlineDate.setHours(23, 59, 59, 999); // End of the specified date 
+
+  // Convert this time to UTC
   const utcDeadlineDate = new Date(deadlineDate.getTime() + (deadlineDate.getTimezoneOffset() * 60000));
+
+  // Adjust to the following day at 11:59 PM UTC-0
+  utcDeadlineDate.setUTCDate(utcDeadlineDate.getUTCDate() + 1);
+  utcDeadlineDate.setUTCHours(11, 59, 59, 999); // Set to 11:59 PM UTC-0
 
   const now = new Date();
   const diff = utcDeadlineDate - now;
@@ -40,19 +44,18 @@ const calculateCountdown = (deadline) => {
   return `${String(days).padStart(2, '0')}d ${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`;
 };
 
-// Function to format dates considering AoE
+// Function to format AoE dates
 const formatDateAoE = (date) => {
   if (!date) return 'TBD';
 
   // Create a Date object
   const dateObject = new Date(date);
-  const utcDeadlineDate = new Date(dateObject.getTime() + (dateObject.getTimezoneOffset() * 60000));
   
-  // Set it to the next day at 7 AM UTC
-  utcDeadlineDate.setUTCDate(utcDeadlineDate.getUTCDate());
-  utcDeadlineDate.setUTCHours(7, 0, 0, 0);
+  // Increment to the end of the specified day
+  dateObject.setHours(23, 59, 59, 999); // Set it to the end of the AoE day
 
-  return utcDeadlineDate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+  dateObject.setUTCDate(dateObject.getUTCDate() + 1); // Set to next day for display purposes
+  return dateObject.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
 };
 
 
