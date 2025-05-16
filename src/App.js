@@ -212,7 +212,6 @@ function App() {
       return matchesConference && matchesSearch && isUpcoming;
     });
     
-
     function getAoEAdjustedDeadline(deadline) {
       if (!deadline) return null;
       const dateObject = new Date(deadline);
