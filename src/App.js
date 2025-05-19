@@ -212,37 +212,7 @@ function App() {
       return matchesConference && matchesSearch && isUpcoming;
     });
     
-    function getAoEAdjustedDeadline(deadline) {
-      if (!deadline) return null;
-      const dateObject = new Date(deadline);
-      dateObject.setHours(23, 59, 59, 999);
-      dateObject.setUTCDate(dateObject.getUTCDate() + 1);
-      return dateObject;
-    }
-
-    const sortedConferences = updatedConferences.sort((a, b) => {
-      const deadlineA = getAoEAdjustedDeadline(a.deadline);
-      const deadlineB = getAoEAdjustedDeadline(b.deadline);
-
-      // Defensive: if invalid dates, put them last
-      if (!deadlineA && !deadlineB) return 0;
-      if (!deadlineA) return 1;
-      if (!deadlineB) return -1;
-
-      const isAUpcoming = deadlineA > now;
-      const isBUpcoming = deadlineB > now;
-
-      if (isAUpcoming && isBUpcoming) {
-        return deadlineA - deadlineB;
-      }
-      if (!isAUpcoming && !isBUpcoming) {
-        return 0; // both passed
-      }
-      if (isAUpcoming) return -1;
-      return 1;
-    });
-  
-    setFilteredConferences(sortedConferences);
+    setFilteredConferences(updatedConferences);
   };
 
   // Select conferences
