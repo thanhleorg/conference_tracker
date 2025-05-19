@@ -99,8 +99,8 @@ function ConferenceDisplay({ filteredConferences }) {
                 >
                     <MenuItem value="deadline">Deadline</MenuItem>
                     <MenuItem value="date">Date</MenuItem>
-                    <MenuItem value="alphabetical">Alphabetical</MenuItem>
-                    <MenuItem value="acceptanceRate">Acceptance rate</MenuItem>
+                    <MenuItem value="alphabetical">Name</MenuItem>
+                    <MenuItem value="acceptanceRate">Acceptance Rate</MenuItem>
                 </Select>
             </FormControl>
 
