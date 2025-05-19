@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import Link from '@mui/material/Link';
+import Box from '@mui/material/Box';
 
 const StyledLink = styled(Link)({
   color: 'darkblue',
@@ -91,7 +92,6 @@ const ConferenceCard = ({ conference }) => {
       variant="outlined"
       sx={{
         borderRadius: '5px',
-        
         padding: 1,
         marginBottom: 2, 
         boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
@@ -115,6 +115,21 @@ const ConferenceCard = ({ conference }) => {
         <Typography variant="subtitle2" sx={{ fontWeight: 'bold', fontStyle: 'italic', color: 'error.main', fontSize: 'var(--font-size-body)' }}>
           {conference.note}
         </Typography>
+        
+        {conference.general_chair && <Typography variant="body2" sx={{ fontWeight: 'normal', marginBottom: 0, color: 'text.secondary', fontSize: 'var(--font-size-body)', }}>
+          General Chair:{' '}
+          <Box component="span" sx={{ fontWeight: 'bold', color: 'text.secondary' }}>
+            {conference.general_chair}
+          </Box>
+        </Typography>}
+
+        {conference.program_chair && <Typography variant="body2" sx={{ fontWeight: 'normal', marginBottom: 0, color: 'text.secondary', fontSize: 'var(--font-size-body)', }}>
+          Program Chair:{' '}
+          <Box component="span" sx={{ fontWeight: 'bold', color: 'text.secondary' }}>
+            {conference.program_chair}
+          </Box>
+        </Typography>}
+
 
 
         {acceptance_rate !== 'N/A' && (
