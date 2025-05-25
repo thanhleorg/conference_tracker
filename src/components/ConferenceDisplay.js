@@ -16,7 +16,7 @@ function getAoEAdjustedDeadline(deadline) {
 }
 
 const sortFunctions = {
-    deadline: (confs) =>
+    sdeadline: (confs) =>
         confs.sort((a, b) => {
             const now = new Date();
             const deadlineA = getAoEAdjustedDeadline(a.deadline);
@@ -53,9 +53,9 @@ const sortFunctions = {
 function ConferenceDisplay({ filteredConferences }) {
     // State to track current view: 'list' or 'graph'
     const [viewMode, setViewMode] = useState('list'); // default is list
-    const [sortMode, setSortMode] = useState('deadline');
+    const [sortMode, setSortMode] = useState('sdeadline');
     const [sortFunction, setSortFunction] = useState(
-        () => sortFunctions.deadline
+        () => sortFunctions.sdeadline
     );
 
     const handleViewChange = (e) => {
@@ -97,9 +97,9 @@ function ConferenceDisplay({ filteredConferences }) {
                     label="Sort"
                     onChange={handleSortChange}
                 >
-                    <MenuItem value="deadline">Deadline</MenuItem>
-                    <MenuItem value="date">Date</MenuItem>
-                    <MenuItem value="alphabetical">Name</MenuItem>
+                    <MenuItem value="sdeadline">Submission Deadline</MenuItem>
+                    <MenuItem value="date">Conf. Date</MenuItem>
+                    <MenuItem value="alphabetical">Conf. Name</MenuItem>
                     <MenuItem value="acceptanceRate">Acceptance Rate</MenuItem>
                 </Select>
             </FormControl>
