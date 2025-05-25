@@ -46,6 +46,7 @@ const sortFunctions = {
             return new Date(a.date) - new Date(b.date);
         }),
     alphabetical: (confs) => confs.sort((a, b) => a.name.localeCompare(b.name)),
+    country:      (confs) => confs.sort((a, b) => a.name.localeCompare(b.name)),
     acceptanceRate: (confs) =>
         confs.sort((a, b) => b.acceptance_rate - a.acceptance_rate),
 };
