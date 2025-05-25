@@ -6198,6 +6198,8 @@
   place: Rennes, France
   acceptance_rate:
   num_submission:
+  general_chair: Sandrine Blazy
+  program_chair: Suresh Jagannathan
 
 - name: POPL
   description: Principles of Programming Languages
@@ -6209,6 +6211,8 @@
   place: Denver, CO
   acceptance_rate:
   num_submission:
+  general_chair: Steve Zdancewic
+  program_chair: Armando Solar-Lezama
 
 - name: POPL
   description: Principles of Programming Languages
@@ -6220,6 +6224,8 @@
   place: London, United Kingdom
   acceptance_rate:
   num_submission:
+  general_chair: Philippa Gardner
+  program_chair: Derek Dreyer
 
 - name: POPL
   description: Principles of Programming Languages
@@ -6231,6 +6237,8 @@
   place: Boston, MA
   acceptance_rate:
   num_submission:
+  general_chair: Andrew Myers
+  program_chair: Amal Ahmed
 
 - name: POPL
   description: Principles of Programming Languages
@@ -6242,6 +6250,9 @@
   place: Philadelphia, PA
   acceptance_rate:
   num_submission:
+  general_chair: Rajeev Alur
+  program_chair: Hongseok Yang
+  
 
 - name: POPL
   description: Principles of Programming Languages
@@ -6253,6 +6264,8 @@
   place: Virtual Conference
   acceptance_rate:
   num_submission:
+  general_chair: Andreas Podelski
+  program_chair: Azadeh Farzan
 
 - name: POPL
   description: Principles of Programming Languages
@@ -6264,6 +6277,8 @@
   place: New Orleans, LA
   acceptance_rate:
   num_submission:
+  general_chair: Brigitte Pientka
+  program_chair: Lars Birkedal
 
 - name: POPL
   description: Principles of Programming Languages
