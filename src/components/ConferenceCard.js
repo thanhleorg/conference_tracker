@@ -32,7 +32,7 @@ const calculateCountdown = (deadline) => {
 
   const now = new Date();
   const diff = utcDeadlineDate - now;
-  if (diff <= 0) return 'Submission Deadline Passed';
+  if (diff <= 0) return 'Submission Passed';
 
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
@@ -117,23 +117,17 @@ const ConferenceCard = ({ conference }) => {
         </Typography>
         
         {conference.general_chair && <Typography variant="body2" sx={{ fontWeight: 'normal', marginBottom: 0, color: 'text.secondary', fontSize: 'var(--font-size-body)', }}>
-          General Chair:{' '}
-          <Box component="span" sx={{ fontWeight: 'bold', color: 'text.secondary' }}>
-            {conference.general_chair}
-          </Box>
+          General Chair:{' '} {conference.general_chair}
         </Typography>}
 
         {conference.program_chair && <Typography variant="body2" sx={{ fontWeight: 'normal', marginBottom: 0, color: 'text.secondary', fontSize: 'var(--font-size-body)', }}>
-          Program Chair:{' '}
-          <Box component="span" sx={{ fontWeight: 'bold', color: 'text.secondary' }}>
-            {conference.program_chair}
-          </Box>
+          Program Chair:{' '} {conference.program_chair}
         </Typography>}
 
 
 
         {acceptance_rate !== 'N/A' && (
-          <Typography variant="subtitle2" sx={{ fontWeight: 'bold', fontStyle: 'italic', fontSize: 'var(--font-size-body)' }}>
+          <Typography variant="subtitle2" sx={{ fontStyle: 'italic', fontSize: 'var(--font-size-body)' }}>
             Acceptance rate: {acceptance_rate}
           </Typography>
         )}
@@ -168,8 +162,8 @@ const ConferenceCard = ({ conference }) => {
         <Typography variant="h5" fontWeight="bold" color="error.main" sx={{ fontSize: 'var(--font-size-title)' }}>
           {countdown || 'TBD'}
         </Typography>
-        <Typography fontWeight="bold" sx={{ fontSize: 'var(--font-size-body)' }}>
-          Deadline: {deadlineDisplay}
+        <Typography sx={{ fontSize: 'var(--font-size-body)' }}>
+          Submission: {deadlineDisplay}
         </Typography>
         <Typography sx={{ fontSize: 'var(--font-size-body)' }}>
           Notification: {notificationDateDisplay}
