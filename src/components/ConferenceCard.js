@@ -112,7 +112,7 @@ const ConferenceCard = ({ conference }) => {
           {conference.description}
         </Typography>
         
-        <Typography variant="subtitle2" sx={{ fontWeight: 'bold', fontStyle: 'italic', color: 'error.main', fontSize: 'var(--font-size-body)' }}>
+        <Typography variant="subtitle2" sx={{ fontWeight: 'bold', fontStyle: 'italic', color: 'text.secondary', fontSize: 'var(--font-size-body)' }}>
           {conference.note}
         </Typography>
         

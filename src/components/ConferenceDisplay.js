@@ -39,14 +39,46 @@ const sortFunctions = {
             if (isAUpcoming) return -1;
             return 1;
         }),
-    date: (confs) =>
+    notification_date: (confs) =>
+        confs.sort((a, b) => {
+            const now = new Date();
+            const deadlineA = getAoEAdjustedDeadline(a.notification_date);
+            const deadlineB = getAoEAdjustedDeadline(b.notification_date);
+
+            // Defensive: if invalid dates, put them last
+            if (!deadlineA && !deadlineB) return 0;
+            if (!deadlineA) return 1;
+            if (!deadlineB) return -1;
+
+            const isAUpcoming = deadlineA > now;
+            const isBUpcoming = deadlineB > now;
+
+            if (isAUpcoming && isBUpcoming) {
+                return deadlineA - deadlineB;
+            }
+            if (!isAUpcoming && !isBUpcoming) {
+                return 0; // both passed
+            }
+            if (isAUpcoming) return -1;
+            return 1;
+        }),
+
+    confdate: (confs) =>
         confs.sort((a, b) => {
             if (!a.date) return 1;
             if (!b.date) return -1;
             return new Date(a.date) - new Date(b.date);
         }),
-    alphabetical: (confs) => confs.sort((a, b) => a.name.localeCompare(b.name)),
-    country:      (confs) => confs.sort((a, b) => a.name.localeCompare(b.name)),
+    confname: (confs) => confs.sort((a, b) => a.name.localeCompare(b.name)),
+    confplace: (confs) =>
+        confs.sort((a, b) => {
+        const getCountry = (place) => {
+        if (!place) return ""; // handle missing place
+        const parts = place.split(",");
+        return parts[parts.length - 1].trim().toLowerCase();
+        };
+        return getCountry(a.place).localeCompare(getCountry(b.place));
+    }),
     acceptanceRate: (confs) =>
         confs.sort((a, b) => b.acceptance_rate - a.acceptance_rate),
 };
@@ -99,9 +131,11 @@ function ConferenceDisplay({ filteredConferences }) {
                     onChange={handleSortChange}
                 >
                     <MenuItem value="sdeadline">Submission Deadline</MenuItem>
-                    <MenuItem value="date">Conf. Date</MenuItem>
-                    <MenuItem value="alphabetical">Conf. Name</MenuItem>
-                    <MenuItem value="acceptanceRate">Acceptance Rate</MenuItem>
+                    <MenuItem value="notification_date">Notification Date</MenuItem>
+                    <MenuItem value="confdate">Conf. Date</MenuItem>
+                    {/* <MenuItem value="confname">Conf. Name</MenuItem> */}
+                    <MenuItem value="confplace">Conf. Location (Country)</MenuItem>
+                    {/* <MenuItem value="acceptanceRate">Acceptance Rate</MenuItem> */}
                 </Select>
             </FormControl>
 
