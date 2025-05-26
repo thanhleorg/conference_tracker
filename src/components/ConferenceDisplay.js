@@ -19,25 +19,40 @@ const sortFunctions = {
     sdeadline: (confs) =>
         confs.sort((a, b) => {
             const now = new Date();
+            const getNowAoe = () => {
+                const nowDate = new Date(now.getTime() + 12 * 60 * 60 * 1000);
+                return new Date(Date.UTC(nowDate.getUTCFullYear(), nowDate.getUTCMonth(), nowDate.getUTCDate()));
+            };
+            const nowAoe = getNowAoe();
             const deadlineA = getAoEAdjustedDeadline(a.deadline);
             const deadlineB = getAoEAdjustedDeadline(b.deadline);
+            
+            // Priorities:
+            // 1 - upcoming deadlines
+            // 2 - TBD (no deadline)
+            // 3 - passed deadlines
 
-            // Defensive: if invalid dates, put them last
-            if (!deadlineA && !deadlineB) return 0;
-            if (!deadlineA) return 1;
-            if (!deadlineB) return -1;
+            // Assign priority values
+            const getPriority = (conf) => {
+                if (!conf) return 2; // TBD
+                if (!conf.deadline) return 2; // TBD
+                const deadlineDate = getAoEAdjustedDeadline(conf.deadline);
+                if (!deadlineDate) return 2; // TBD
+                if (deadlineDate.getTime() >= nowAoe.getTime()) return 1; // upcoming
+                return 3; // passed
+            };
 
-            const isAUpcoming = deadlineA > now;
-            const isBUpcoming = deadlineB > now;
+            const priorityA = getPriority(a);
+            const priorityB = getPriority(b);
 
-            if (isAUpcoming && isBUpcoming) {
-                return deadlineA - deadlineB;
+            if (priorityA !== priorityB) return priorityA - priorityB;
+
+            // Same priority, order by deadline if present, otherwise equal
+            if (priorityA === 1) {
+                // Both upcoming, sort by countdown ascending
+                return deadlineA.getTime() - deadlineB.getTime();
             }
-            if (!isAUpcoming && !isBUpcoming) {
-                return 0; // both passed
-            }
-            if (isAUpcoming) return -1;
-            return 1;
+            return 0; // TBD or passed both equal
         }),
     notification_date: (confs) =>
         confs.sort((a, b) => {
