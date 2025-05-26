@@ -15,6 +15,18 @@ function getAoEAdjustedDeadline(deadline) {
     return dateObject;
 }
 
+/*
+    Priorities:
+    1 - upcoming deadlines
+    2 - TBD (no deadline)
+    3 - passed deadlines
+*/
+const PRIORITY = {
+    UPCOMING_DEADLINE: 1,
+    TBD: 2,
+    PASSED_DEADLINE: 3
+}
+
 const sortFunctions = {
     submission_deadline: (confs) =>
         confs.sort((a, b) => {
@@ -27,19 +39,15 @@ const sortFunctions = {
             const deadlineA = getAoEAdjustedDeadline(a.deadline);
             const deadlineB = getAoEAdjustedDeadline(b.deadline);
             
-            // Priorities:
-            // 1 - upcoming deadlines
-            // 2 - TBD (no deadline)
-            // 3 - passed deadlines
 
             // Assign priority values
             const getPriority = (conf) => {
-                if (!conf) return 2; // TBD
-                if (!conf.deadline) return 2; // TBD
+                if (!conf) return PRIORITY.TBD;
+                if (!conf.deadline) return PRIORITY.TBD;
                 const deadlineDate = getAoEAdjustedDeadline(conf.deadline);
-                if (!deadlineDate) return 2; // TBD
-                if (deadlineDate.getTime() >= nowAoe.getTime()) return 1; // upcoming
-                return 3; // passed
+                if (!deadlineDate) return PRIORITY.TBD;
+                if (deadlineDate.getTime() >= nowAoe.getTime()) return PRIORITY.UPCOMING_DEADLINE;
+                return PRIORITY.PASSED_DEADLINE;
             };
 
             const priorityA = getPriority(a);
@@ -48,7 +56,7 @@ const sortFunctions = {
             if (priorityA !== priorityB) return priorityA - priorityB;
 
             // Same priority, order by deadline if present, otherwise equal
-            if (priorityA === 1) {
+            if (priorityA === PRIORITY.UPCOMING_DEADLINE) {
                 // Both upcoming, sort by countdown ascending
                 return deadlineA.getTime() - deadlineB.getTime();
             }
