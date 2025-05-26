@@ -16,7 +16,7 @@ function getAoEAdjustedDeadline(deadline) {
 }
 
 const sortFunctions = {
-    sdeadline: (confs) =>
+    submission_deadline: (confs) =>
         confs.sort((a, b) => {
             const now = new Date();
             const getNowAoe = () => {
@@ -101,9 +101,9 @@ const sortFunctions = {
 function ConferenceDisplay({ filteredConferences }) {
     // State to track current view: 'list' or 'graph'
     const [viewMode, setViewMode] = useState('list'); // default is list
-    const [sortMode, setSortMode] = useState('sdeadline');
+    const [sortMode, setSortMode] = useState('submission_deadline');
     const [sortFunction, setSortFunction] = useState(
-        () => sortFunctions.sdeadline
+        () => sortFunctions.submission_deadline
     );
 
     const handleViewChange = (e) => {
@@ -145,7 +145,7 @@ function ConferenceDisplay({ filteredConferences }) {
                     label="Sort"
                     onChange={handleSortChange}
                 >
-                    <MenuItem value="sdeadline">Submission Deadline</MenuItem>
+                    <MenuItem value="submission_deadline">Submission Deadline</MenuItem>
                     <MenuItem value="notification_date">Notification Date</MenuItem>
                     <MenuItem value="confdate">Conf. Date</MenuItem>
                     {/* <MenuItem value="confname">Conf. Name</MenuItem> */}
