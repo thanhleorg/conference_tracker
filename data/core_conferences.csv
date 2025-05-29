@@ -1,0 +1,28 @@
+Conference,ConferenceTitle,Area,AreaTitle,ParentArea,NextTier
+sigmetrics,SIGMETRICS,A*,A*,CORE2023,False
+sigcomm,SIGCOMM,A*,A*,CORE2023,False
+infocom,INFOCOM,A*,A*,CORE2023,False
+mobicom,MOBICOM,A*,A*,CORE2023,False
+mobihoc,MOBIHOC,A,A,CORE2023,False
+conext,CoNEXT,A,A,CORE2023,False
+mswim,MSWIM,A,A,CORE2023,False
+imc,IMC,A,A,CORE2023,False
+globecom,GLOBECOM,B,B,CORE2023,False
+wisec,WiSEC,B,B,CORE2023,False
+icc,ICC,B,B,CORE2023,False
+ccnc,CCNC,B,B,CORE2023,False
+im,IM,B,B,CORE2023,False
+iwcmc,IWCMC,B,B,CORE2023,False
+iwqos,IWQOS,B,B,CORE2023,False
+mascots,MASCOTS,B,B,CORE2023,False
+networking,Networking,B,B,CORE2023,False
+pimrc,PIMRC,B,B,CORE2023,False
+icccn,ICCCN,B,B,CORE2023,False
+wimob,WiMob,B,B,CORE2023,False
+wcnc,WCNC,B,B,CORE2023,False
+noms,NOMS,B,B,CORE2023,False
+nss,NSS,B,B,CORE2023,False
+mass,MASS,B,B,CORE2023,False
+vtc,VTC Spring,B,B,CORE2023,False
+vtc,VTC Fall,B,B,CORE2023,False
+npc,NPC,C,C,CORE2023,False
