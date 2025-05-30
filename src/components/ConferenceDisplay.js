@@ -38,7 +38,7 @@ const sortFunctions = {
             const nowAoe = getNowAoe();
             const deadlineA = getAoEAdjustedDeadline(a.deadline);
             const deadlineB = getAoEAdjustedDeadline(b.deadline);
-            
+
 
             // Assign priority values
             const getPriority = (conf) => {

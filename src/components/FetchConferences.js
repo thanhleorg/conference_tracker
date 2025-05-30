@@ -57,7 +57,7 @@ async function parseCSV(url) {
 }
 
 /**
- * 
+ *
  * @param {string} url
  * @returns an object with key as conference name and values of acceptances and submissions
  */
@@ -97,12 +97,12 @@ async function parseAcceptanceRateFile(url) {
 
 export async function fetchFullData() {
   try {
-    const yamlResponse = await fetch('/csconfs/data/conferences.yaml');
+    const yamlResponse = await fetch('/conf/data/conferences.yaml');
     const yamlText = await yamlResponse.text();
     const loadedConferences = yaml.load(yamlText) || [];
 
-    const csrankingsData = await parseCSV('/csconfs/data/csrankings_conferences.csv');
-    const coreData = await parseCSV('/csconfs/data/core_conferences.csv');
+    const csrankingsData = await parseCSV('/conf/data/csrankings_conferences.csv');
+    const coreData = await parseCSV('/conf/data/core_conferences.csv');
     const conferenceStat = await parseAcceptanceRateFile('https://raw.githubusercontent.com/emeryberger/csconferences/refs/heads/main/csconferences.csv') || {};
 
     loadedConferences.forEach(conf => {
@@ -111,7 +111,7 @@ export async function fetchFullData() {
         conf.acceptance_rate = conferenceStat[conferenceName].acceptanceRate;
       }
     })
-  
+
     return {
       loadedConferences,
       csrankingsData,

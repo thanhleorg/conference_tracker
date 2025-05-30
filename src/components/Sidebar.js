@@ -7,7 +7,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const parentAreaColors = [
-  '#1f77b4', '#ff7f0e', '#2ca02c', '#9467bd', '#d62728', 
+  '#1f77b4', '#ff7f0e', '#2ca02c', '#9467bd', '#d62728',
   '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf',
 ];
 
@@ -31,7 +31,7 @@ export default function Sidebar(props) {
 
   return (
     <ul style={{ listStyle: 'none', paddingLeft: 0, margin: 0 }}>
-      {['csrankings', 'core'].map(datasetId => {
+      {['core'].map(datasetId => {
         const title = datasetId === 'csrankings' ? 'CSRankings' : 'CORE';
         const { areas, conferencesByArea } = datasets[datasetId];
 

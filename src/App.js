@@ -150,40 +150,40 @@ function App() {
   // Update URL when selectedConferences changes
   useEffect(() => {
     if (conferences.length === 0) return;
-    
+
     // Conferences overlapping in both datasets
     const confsInBoth = allCsrConfNames.filter(conf => allCoreConfNames.includes(conf));
-  
+
     // Identify selected conferences for CSR and CORE
     const selectedCsr = allCsrConfNames.filter(conf => selectedConferences.has(conf));
     const selectedCore = allCoreConfNames.filter(conf => selectedConferences.has(conf));
-  
+
     // Determine if all CSR and/or CORE conferences are selected
     const allCsrSelected = selectedCsr.length === allCsrConfNames.length;
     const allCoreSelected = selectedCore.length === allCoreConfNames.length;
-  
+
     // Compose CSR param excluding any conferences also in CORE if CORE fully selected
     let csrParamList = selectedCsr;
     if (allCoreSelected) {
       // remove overlapping conferences from CSR
       csrParamList = csrParamList.filter(conf => !confsInBoth.includes(conf));
     }
-  
+
     // Compose CORE param excluding any conferences also in CSR if CSR fully selected
     let coreParamList = selectedCore;
     if (allCsrSelected) {
       // remove overlapping conferences from CORE
       coreParamList = coreParamList.filter(conf => !confsInBoth.includes(conf));
     }
-  
+
     let paramUrl = '';
     // Set csrankings param
     if (csrParamList.length === allCsrConfNames.length - (allCoreSelected ? confsInBoth.length : 0)) {
-      paramUrl += 'csrankings=all';
+      paramUrl += 'core=all';
     } else if (csrParamList.length > 0) {
-      paramUrl += `csrankings=${csrParamList.join(',')}`;
+      paramUrl += `core=${csrParamList.join(',')}`;
     }
-  
+
     // Set core param
     if (coreParamList.length === allCoreConfNames.length - (allCsrSelected ? confsInBoth.length : 0)) {
       paramUrl += '&core=all';
@@ -199,19 +199,19 @@ function App() {
   const filterConferences = () => {
     const selected = Array.from(selectedConferences);
     const now = new Date();
-  
+
     const updatedConferences = conferences.filter(conf => {
       const matchesConference = selected.includes(conf.name);
       const matchesSearch = conf.name.toLowerCase().includes(searchQuery.toLowerCase());
-  
+
       const deadlineDate = new Date(conf.deadline);
       const conferenceDate = new Date(conf.date);
       // Filter out past deadline conferences if hidePastDeadlines is true
       const isUpcoming = !hidePastDeadlines || deadlineDate >= now || conferenceDate >= now;
-  
+
       return matchesConference && matchesSearch && isUpcoming;
     });
-    
+
     setFilteredConferences(updatedConferences);
   };
 
@@ -248,7 +248,7 @@ function App() {
             <div className="conference-list">
               <ConferenceDisplay filteredConferences={filteredConferences} />
             </div>
-            
+
             <div className="sidebar">
               <h2>Filters</h2>
               <FormControlLabel
@@ -272,8 +272,8 @@ function App() {
               />
               <Sidebar
                 datasets={{
-                  csrankings: { areas: csrAreas, conferencesByArea: csrConfsByArea },
                   core: { areas: coreAreas, conferencesByArea: coreConfsByArea },
+                  csrankings: { areas: csrAreas, conferencesByArea: csrConfsByArea },
                 }}
                 selectedConferences={selectedConferences}
                 openTopLevel={openTopLevel}

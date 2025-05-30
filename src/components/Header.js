@@ -7,10 +7,10 @@ export default function Header() {
     <header style={{ display: 'flex', alignItems: 'center', padding: '10px' }}>
       <div>
         <div>
-          <Link 
-            href="https://roars.dev/csconfs" 
-            target="_blank" 
-            rel="noopener noreferrer" 
+          <Link
+            href="https://roars.dev/conf"
+            target="_blank"
+            rel="noopener noreferrer"
             underline="none"
             aria-label="CSConfs project homepage"
             sx={{
@@ -41,7 +41,7 @@ export default function Header() {
                 },
               }}
             >
-              CSConfs: CS Conference Deadlines 
+              CSConfs: CS Conference Deadlines
             </Typography>
           </Link>
         </div>
@@ -49,19 +49,19 @@ export default function Header() {
           <Typography
             variant="body2"
             component="div"
-            sx={{ 
-              marginTop: 1, 
-              color: 'text.secondary', 
+            sx={{
+              marginTop: 1,
+              color: 'text.secondary',
               userSelect: 'text',
               '@media (max-width:600px)': {
                 fontSize: '0.6rem',
               },
             }}
           >
-            <Link 
-              href="https://roars.dev" 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <Link
+              href="https://roars.dev"
+              target="_blank"
+              rel="noopener noreferrer"
               underline="hover"
               aria-label="Roars Lab, Computer Science, George Mason University"
             >
@@ -69,14 +69,14 @@ export default function Header() {
             </Link> @ George Mason University.<br />
             Countdown to submission deadlines uses AoE (Anywhere on Earth) time zone.<br />
             See something missing or inaccurate? Create a GitHub issue or a pull request at{' '}
-            <Link 
-              href="https://git.roars.dev/csconfs" 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <Link
+              href="https://git.roars.dev/conf"
+              target="_blank"
+              rel="noopener noreferrer"
               underline="hover"
               aria-label="Git repository for CSConfs"
             >
-              git.roars.dev/csconfs
+              git.roars.dev/conf
             </Link>.
           </Typography>
         </div>
