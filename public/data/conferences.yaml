@@ -363,3 +363,18 @@
   num_submission:
   general_chair:
   program_chair:
+
+- name: BDCAT
+  description: IEEE/ACM International Conference on Big Data Computing, Applications and Technologies
+  year: 2025
+  link: https://bdcat-conference.org/
+  abstract_deadline: "2025-09-05"
+  deadline: "2025-09-05"
+  notification_date: "2025-10-17"
+  date: "2025-12-01"
+  place: Nantes, France
+  note:
+  acceptance_rate:
+  num_submission:
+  general_chair:
+  program_chair:
