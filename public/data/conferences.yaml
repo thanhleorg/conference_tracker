@@ -318,3 +318,48 @@
   num_submission:
   general_chair:
   program_chair:
+
+- name: WPMC
+  description: IEEE - 28th International Symposium on Wireless Personal Multimedia Communications
+  year: 2025
+  link: https://wpmc-home.com/wpmc2025-call-for-papers/
+  abstract_deadline: "2025-08-05"
+  deadline: "2025-08-05"
+  notification_date: "2025-09-15"
+  date: "2025-12-9"
+  place: Sofia, Bulgaria
+  note:
+  acceptance_rate:
+  num_submission:
+  general_chair:
+  program_chair:
+
+- name: MOBIARCH
+  description: Workshop on Mobility in the Evolving Internet Architecture to be held in conjunction with MobiCom 2025
+  year: 2025
+  link: https://mobiarch2025.github.io/index.html
+  abstract_deadline: "2025-07-15"
+  deadline: "2025-07-15"
+  notification_date: "2025-09-15"
+  date: "2025-11-8"
+  place: Hongkong, China
+  note:
+  acceptance_rate:
+  num_submission:
+  general_chair: Prof. Stephan Sigg, Prof. Kien Nguyen
+  program_chair:
+
+- name: AAAI
+  description: The 40th Annual AAAI Conference on Artificial Intelligence
+  year: 2026
+  link: https://aaai.org/conference/aaai/aaai-26/
+  abstract_deadline: "2025-07-25"
+  deadline: "2025-08-1"
+  notification_date: "2025-09-8"
+  date: "2026-1-20"
+  place: Singapore
+  note:
+  acceptance_rate:
+  num_submission:
+  general_chair:
+  program_chair:

@@ -26,3 +26,6 @@ mass,MASS,B,B,CORE2023,False
 vtc,VTC Spring,B,B,CORE2023,False
 vtc,VTC Fall,B,B,CORE2023,False
 npc,NPC,C,C,CORE2023,False
+wpmc,WPMC,C,C,CORE2023,False
+mobiarch,MOBIARCH,-,-,CORE2023,False
+aaai,AAAI,A*,A*,CORE2023,False
