@@ -378,3 +378,33 @@
   num_submission:
   general_chair:
   program_chair:
+
+- name: PIMRC
+  description: IEEE International Symposium on Personal and Indoor Mobile Radio Conference
+  year: 2025
+  link: https://pimrc2025.ieee-pimrc.org/
+  abstract_deadline: "2025-03-16"
+  deadline: "2025-03-16"
+  notification_date: "2025-06-01"
+  date: "2025-09-01"
+  place: Istanbul, Turkisk
+  note:
+  acceptance_rate:
+  num_submission:
+  general_chair:
+  program_chair:
+
+- name: DYSPAN
+  description: IEEE International Symposium on Dynamic Spectrum Access Networks
+  year: 2025
+  link: https://dyspan2025.ieee-dyspan.org/
+  abstract_deadline: "2024-12-15"
+  deadline: "2024-12-15"
+  notification_date: "2025-02-03"
+  date: "2025-05-12"
+  place: Istanbul, Turkisk
+  note:
+  acceptance_rate:
+  num_submission:
+  general_chair:
+  program_chair:
