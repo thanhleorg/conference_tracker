@@ -207,7 +207,8 @@ function App() {
       const deadlineDate = new Date(conf.deadline);
       const conferenceDate = new Date(conf.date);
       // Filter out past deadline conferences if hidePastDeadlines is true
-      const isUpcoming = !hidePastDeadlines || deadlineDate >= now || conferenceDate >= now;
+      // const isUpcoming = !hidePastDeadlines || deadlineDate >= now || conferenceDate >= now;
+      const isUpcoming = !hidePastDeadlines || deadlineDate >= now;
 
       return matchesConference && matchesSearch && isUpcoming;
     });
