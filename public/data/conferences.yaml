@@ -408,3 +408,18 @@
   num_submission:
   general_chair:
   program_chair:
+
+- name: ICLR
+  description: The International Conference on Learning Representations
+  year: 2026
+  link: https://iclr.cc/Conferences/2025/CallForPapers
+  abstract_deadline: "2025-09-27"
+  deadline: "2025-10-1"
+  notification_date: "2025-11-12"
+  date: "2026-04-24"
+  place: TBD
+  note: "Time from ICLR2025 for reference"
+  acceptance_rate:
+  num_submission:
+  general_chair:
+  program_chair:
